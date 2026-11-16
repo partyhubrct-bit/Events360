@@ -66,8 +66,8 @@
       <button onclick="openCustomerCareModal()" class="text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
         🎧 Support
       </button>
-      <button id="screenLockHeaderBtn" onclick="openScreenLockSetupOrLock()" class="hidden text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
-        🔒 Lock
+      <button id="screenLockHeaderBtn" onclick="openScreenLockSetupOrLock()" class="text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
+        🔒 Lock App
       </button>
       <button id="switchRoleBtn" onclick="switchRole()" class="hidden text-xs font-semibold bg-white/10 text-white border border-white/15 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
         Home
@@ -82,7 +82,6 @@
   <section id="screen-select" class="hero-mesh text-white min-h-[calc(100vh-56px)] relative overflow-hidden flex flex-col justify-between w-full">
     <div class="max-w-5xl mx-auto w-full px-4 sm:px-6 pt-6 pb-12 relative z-10 space-y-6 animate-fade-up">
 
-      <!-- PAYMENT CAUTION BANNER -->
       <div class="bg-rose-950/90 border-2 border-rose-500 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-1.5">
         <div class="flex items-center gap-2 text-rose-300 font-display font-extrabold text-xs sm:text-sm uppercase tracking-wider">
           <span>⚠️</span>
@@ -111,7 +110,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Event Hosts</span>
             <h2 class="font-display text-lg font-bold text-white">Customer Portal</h2>
-            <p class="text-xs text-slate-300">Browse anonymized decor catalog, upload reference design photos, set budget &amp; book securely.</p>
+            <p class="text-xs text-slate-300">Browse anonymized decor catalog, upload reference design photos, set custom state/city &amp; budget.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-indigo-300">
             <span>Customer Login</span><span>→</span>
@@ -122,7 +121,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Creators &amp; Teams</span>
             <h2 class="font-display text-lg font-bold text-white">Vendor Portal</h2>
-            <p class="text-xs text-slate-300">Self-register with eKYC &amp; bank details, upload catalog pictures, and receive assigned event orders.</p>
+            <p class="text-xs text-slate-300">Self-register with eKYC, shop photo &amp; bank details, upload catalog pictures, and receive assigned event orders.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-emerald-300">
             <span>Vendor Login / Reg</span><span>→</span>
@@ -133,7 +132,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-cyan-400">City Partner</span>
             <h2 class="font-display text-lg font-bold text-white">Child Admin Portal</h2>
-            <p class="text-xs text-slate-300">Self-register, verify local vendors, add/edit vendors, approve advance payments &amp; earn 2% commission.</p>
+            <p class="text-xs text-slate-300">Self-register with self/shop photo &amp; eKYC, add/edit verified vendors, approve advance payments &amp; earn commission.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-cyan-300">
             <span>City Partner Login / Reg</span><span>→</span>
@@ -260,7 +259,7 @@
         <button onclick="loginChildAdmin()" class="w-full bg-cyan-400 text-slate-950 font-extrabold py-3 rounded-xl text-sm">Enter City Partner Portal →</button>
       </div>
 
-      <button onclick="switchRole()" class="w-full text-xs text-slate-400">← Back to Home</button>
+      <button onclick="switchRole()" class="w-full text-xs text-slate-400 pt-2">← Back to Home</button>
     </div>
   </section>
 
@@ -295,17 +294,23 @@
       <div class="bg-white p-5 sm:p-6 rounded-3xl border shadow-sm space-y-4">
         <h3 class="font-display font-extrabold text-lg text-slate-900">🎨 Choose Decor Design &amp; Book Event</h3>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Select state, city, custom budget range, occasion, date, and venue. Browse professional vendor decor catalog pictures securely.
+          Select state, city, custom price range, occasion, date, and venue. You can also upload your own sample design reference photo if you want!
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div>
-            <label class="block font-bold mb-1">State</label>
-            <select id="custStateSel" onchange="onCustomerStateChange()" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
+            <label class="block font-bold mb-1">State (Customizable / Select)</label>
+            <div class="flex gap-2">
+              <select id="custStateSel" onchange="onCustomerStateChange()" class="w-2/3 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
+              <input id="custCustomStateInput" type="text" placeholder="Or type state" class="w-1/3 border rounded-xl px-3 py-2.5" />
+            </div>
           </div>
           <div>
-            <label class="block font-bold mb-1">City / Town</label>
-            <select id="custCitySel" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
+            <label class="block font-bold mb-1">City / Town (Customizable / Select)</label>
+            <div class="flex gap-2">
+              <select id="custCitySel" class="w-2/3 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
+              <input id="custCustomCityInput" type="text" placeholder="Or type city" class="w-1/3 border rounded-xl px-3 py-2.5" />
+            </div>
           </div>
           <div>
             <label class="block font-bold mb-1">Custom Price Range (₹)</label>
@@ -315,16 +320,16 @@
             </div>
           </div>
           <div>
-            <label class="block font-bold mb-1">Occasion / Category (Custom or Preset)</label>
+            <label class="block font-bold mb-1">Occasion / Category (Custom Category)</label>
             <div class="flex gap-2">
               <select id="custOccasionSel" onchange="checkCustomOccasion()" class="w-1/2 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold">
                 <option value="Birthday">Birthday Party</option>
                 <option value="Wedding">Wedding Mandap</option>
                 <option value="Anniversary">Anniversary</option>
                 <option value="BabyShower">Baby Shower</option>
-                <option value="__CUSTOM__">+ Custom Occasion</option>
+                <option value="__CUSTOM__">+ Custom Category</option>
               </select>
-              <input id="custCustomOccasionInput" type="hidden" placeholder="Type Occasion" class="w-1/2 border rounded-xl px-3 py-2.5 hidden" />
+              <input id="custCustomOccasionInput" type="text" placeholder="Type Category" class="w-1/2 border rounded-xl px-3 py-2.5 hidden" />
             </div>
           </div>
           <div>
@@ -335,6 +340,11 @@
             <label class="block font-bold mb-1">Place of Event / Venue Name</label>
             <input id="custVenueInput" type="text" placeholder="Hall name, Street, Landmark" class="w-full border rounded-xl px-3 py-2.5" />
           </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-xs mb-1">Upload Your Sample Design Photo (Optional)</label>
+          <input id="custUserSampleUpload" type="file" accept="image/*" class="w-full border rounded-xl p-1.5 text-xs bg-slate-50" />
         </div>
 
         <div>
@@ -645,17 +655,17 @@
       { id: "s6", title: "Cradle Ceremony Traditional Decor", category: "BabyShower", priceTier: 15000, img: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80", vendorAnonymized: true }
     ];
 
-    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v22")) || [
+    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v23")) || [
       { id: "ca1", name: "Ramesh Kumar", officeName: "Rayachoti Hub", phone: "9848012345", city: "Rayachoti", state: "Andhra Pradesh", earnedCommission: 0 }
     ];
-    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v22")) || [
+    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v23")) || [
       { id: "v1", businessName: "PartyHub - SR Events", ownerName: "Asad Syed", phone: "9398934021", city: "Rayachoti", state: "Andhra Pradesh", isPhysicallyVerified: true, verifiedByCaId: "ca1", bankDetails: { holder: "Asad Syed", acct: "1234567890", ifsc: "HDFC0000123" } },
       { id: "v2", businessName: "Dildar & SR Events", ownerName: "Dildar", phone: "9951564594", city: "Madanapalle", state: "Andhra Pradesh", isPhysicallyVerified: false, verifiedByCaId: null }
     ];
-    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v22")) || DEFAULT_SAMPLE_GALLERY;
-    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v22")) || [];
-    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v22")) || [];
-    let platformConfig = JSON.parse(localStorage.getItem("e360_config_v22")) || {
+    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v23")) || DEFAULT_SAMPLE_GALLERY;
+    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v23")) || [];
+    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v23")) || [];
+    let platformConfig = JSON.parse(localStorage.getItem("e360_config_v23")) || {
       bank: "Events360 Escrow • HDFC A/C: 50200088991122",
       cloudLink: "https://drive.google.com/drive/folders/events360-assets",
       supportPhone: "+91-9398934021"
@@ -667,12 +677,12 @@
     let lockMode = "unlock";
 
     function saveData() {
-      localStorage.setItem("e360_ca_v22", JSON.stringify(childAdmins));
-      localStorage.setItem("e360_vendors_v22", JSON.stringify(vendors));
-      localStorage.setItem("e360_decor_catalog_v22", JSON.stringify(vendorDecorCatalog));
-      localStorage.setItem("e360_requests_v22", JSON.stringify(designRequests));
-      localStorage.setItem("e360_agreements_v22", JSON.stringify(agreements));
-      localStorage.setItem("e360_config_v22", JSON.stringify(platformConfig));
+      localStorage.setItem("e360_ca_v23", JSON.stringify(childAdmins));
+      localStorage.setItem("e360_vendors_v23", JSON.stringify(vendors));
+      localStorage.setItem("e360_decor_catalog_v23", JSON.stringify(vendorDecorCatalog));
+      localStorage.setItem("e360_requests_v23", JSON.stringify(designRequests));
+      localStorage.setItem("e360_agreements_v23", JSON.stringify(agreements));
+      localStorage.setItem("e360_config_v23", JSON.stringify(platformConfig));
     }
 
     function logAgreement(type, partyA, partyB, refId, summary) {
@@ -711,14 +721,14 @@
 
     function persistSession(obj) {
       currentSession = { ...obj, expiresAt: Date.now() + 86400000 };
-      localStorage.setItem("e360_session_v22", JSON.stringify(currentSession));
+      localStorage.setItem("e360_session_v23", JSON.stringify(currentSession));
     }
 
     function restoreSession() {
-      const raw = localStorage.getItem("e360_session_v22");
+      const raw = localStorage.getItem("e360_session_v23");
       if (!raw) return;
       const s = JSON.parse(raw);
-      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v22"); return; }
+      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v23"); return; }
       currentSession = s;
       if (s.role === "customer") enterCustomerDash(s);
       if (s.role === "vendor") openVendorDash(vendors.find(v => v.phone === s.phone) || s, true);
@@ -728,7 +738,7 @@
 
     function logout() {
       currentSession = null;
-      localStorage.removeItem("e360_session_v22");
+      localStorage.removeItem("e360_session_v23");
       showScreen("screen-select", "Pan-India", false, false);
     }
 
@@ -980,7 +990,7 @@
         state, city, minPrice, maxPrice, occasion, eventDate, venue, notes,
         samplePicture: finalImage,
         adminCustomizedPrice: Math.round((minPrice + maxPrice) / 2),
-        status: "pending_admin_pricing", // pending_admin_pricing -> waiting_ca_advance_approval -> broadcasted_to_vendors -> claimed_by_vendor -> escrow_paid -> ca_approved -> proof_uploaded -> completed
+        status: "pending_admin_pricing",
         assignedVendorId: null,
         assignedVendorName: null,
         advancePaid: false,
@@ -1187,9 +1197,9 @@
 
     // VENDOR PORTAL
     function loginVendor() {
-      const phone = document.getElementById("vendPhoneInput").value.trim();
+      const phone = document.getElementById("vlPhone").value.trim();
       const v = vendors.find(item => item.phone === phone);
-      if (!v) { alert("Vendor not found. Demo Vendor: 9398934021 (PartyHub - SR Events, Rayachoti)"); return; }
+      if (!v) { alert("Vendor not found with this mobile number. Please check or register first."); return; }
       persistSession({ role: "vendor", phone: v.phone, vendor: v });
       openVendorDash(v);
     }
@@ -1317,9 +1327,9 @@
 
     // CHILD ADMIN LOGIN & APPROVAL
     function loginChildAdmin() {
-      const phone = document.getElementById("caPhoneInput").value.trim();
+      const phone = document.getElementById("calPhone").value.trim();
       const ca = childAdmins.find(c => c.phone === phone);
-      if (!ca) { alert("Demo Child Admin: 9848012345 (Ramesh Kumar, Rayachoti Hub)"); return; }
+      if (!ca) { alert("Child Admin not found with this mobile number. Please check or register first."); return; }
       persistSession({ role: "child_admin", phone: ca.phone, ca });
       openChildAdminDash(ca);
     }
@@ -1377,6 +1387,7 @@
       document.getElementById("avPhone").value = "";
       document.getElementById("avCity").value = currentSession ? currentSession.ca.city : "Rayachoti";
       document.getElementById("avState").value = "Andhra Pradesh";
+      document.getElementById("addVendorModal").classList.add("hidden"); // Wait, remove hidden
       document.getElementById("addVendorModal").classList.remove("hidden");
     }
 
@@ -1409,7 +1420,7 @@
       alert("✓ New vendor added and physically verified successfully!");
     }
 
-    syncPanIndiaCities();
+    initStatesAndCities();
     restoreSession();
   </script>
 </body>
