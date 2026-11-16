@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;" />
-  <title>Events360 — Vendor Decor Catalog, Ola/Rapido Dispatch & Escrow System</title>
+  <title>Events360 — Pan-India Hub Dispatch, Escrow & Delivery OTP System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -56,7 +56,7 @@
           Events360
         </span>
         <span id="roleBadge" class="text-[9px] font-bold bg-white/10 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
-          Vendor Catalog &amp; Dispatch
+          Pan-India Flash Model
         </span>
       </div>
     </div>
@@ -64,6 +64,9 @@
     <div class="flex items-center gap-1.5 shrink-0">
       <button onclick="openAgreementsLedgerModal()" class="text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
         📜 Agreements
+      </button>
+      <button onclick="openCustomerCareModal()" class="text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
+        🎧 Support
       </button>
       <button id="screenLockHeaderBtn" onclick="openScreenLockSetupOrLock()" class="hidden text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2.5 py-1.5 rounded-xl whitespace-nowrap">
         🔒 Lock
@@ -83,11 +86,11 @@
 
       <div class="bg-rose-950/90 border-2 border-rose-500 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-1.5">
         <div class="flex items-center gap-2 text-rose-300 font-display font-extrabold text-xs sm:text-sm uppercase tracking-wider">
-          <span>⚡</span>
-          <span>VENDOR CATALOG UPLOAD &amp; OLA/RAPIDO FLASH DISPATCH MODEL</span>
+          <span>⚠️</span>
+          <span>IMPORTANT PAYMENT CAUTION — PAY ONLY THROUGH EVENTS360 APP</span>
         </div>
         <p class="text-xs sm:text-sm text-rose-100 leading-relaxed">
-          Verified vendors upload high-res decor pictures with price ranges $ightarrow$ Customers browse anonymized catalog pictures $ightarrow$ Customer selects design &amp; submits request $ightarrow$ Admin customizes price &amp; broadcasts to all verified vendors simultaneously $ightarrow$ First vendor to grab takes work! (Vendor details are strictly hidden from customers).
+          <strong>Direct payments to vendors (Cash / Personal UPI / Barcodes / Direct Bank) are NOT protected by Events360.</strong> Pay strictly through the <strong>Events360 Application Escrow Checkout</strong>. All vendor details are strictly confidential and managed under Admin &amp; Child Admin supervision.
         </p>
       </div>
 
@@ -99,7 +102,7 @@
           </span>
         </h1>
         <p class="text-xs sm:text-base text-slate-300 leading-relaxed max-w-xl mx-auto">
-          State &amp; City selector, vendor-uploaded decor catalog, lightning-fast flash dispatch, and Child Admin 2% commission escrow approval gate.
+          Ola &amp; Rapido style instant vendor flash dispatch, verified decor catalog with custom price ranges, 4-digit delivery completion OTP, and secure escrow protection.
         </p>
       </div>
 
@@ -109,7 +112,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Event Hosts</span>
             <h2 class="font-display text-lg font-bold text-white">Customer Portal</h2>
-            <p class="text-xs text-slate-300">Select location, browse vendor decor catalog, choose design, share ideas &amp; submit request.</p>
+            <p class="text-xs text-slate-300">Browse vendor decor catalog, select design, set custom price range, date, venue &amp; occasion.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-indigo-300">
             <span>Customer Login</span><span>→</span>
@@ -120,7 +123,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-400">Verified Creators</span>
             <h2 class="font-display text-lg font-bold text-white">Vendor Portal</h2>
-            <p class="text-xs text-slate-300">Upload high-res decor pictures with price ranges &amp; grab live admin broadcast requests instantly.</p>
+            <p class="text-xs text-slate-300">Upload decor pictures &amp; price ranges, grab live admin flash broadcast requests (First-Come-First-Serve).</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-emerald-300">
             <span>Vendor Login</span><span>→</span>
@@ -131,7 +134,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-cyan-400">City Partner</span>
             <h2 class="font-display text-lg font-bold text-white">Child Admin</h2>
-            <p class="text-xs text-slate-300">Physically verify local vendors, earn 2% commission, and approve escrow payout release upon completion.</p>
+            <p class="text-xs text-slate-300">Physically verify local vendors, review advance payment approval requests, and approve payout release.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-cyan-300">
             <span>City Partner Portal</span><span>→</span>
@@ -142,7 +145,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-amber-400">Master Command</span>
             <h2 class="font-display text-lg font-bold text-white">Super Admin</h2>
-            <p class="text-xs text-slate-300">Review customer designs, customize pricing, broadcast to all verified vendors &amp; manage escrow.</p>
+            <p class="text-xs text-slate-300">Customize customer pricing, broadcast flash dispatch to all verified vendors &amp; oversee escrow ledger.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-amber-300">
             <span>Super Admin</span><span>→</span>
@@ -204,21 +207,24 @@
   <!-- MAIN DASHBOARDS -->
   <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 w-full space-y-6">
 
-    <!-- 1. CUSTOMER DASHBOARD (STATE, CITY, BUDGET, OCCASION, VENDOR-UPLOADED DECOR GALLERY) -->
+    <!-- 1. CUSTOMER DASHBOARD -->
     <section id="screen-customer-dash" class="hidden space-y-5 animate-fade-up">
       <div class="bg-slate-900 text-white p-5 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div>
           <h2 id="custWelcome" class="font-display font-extrabold text-xl">Welcome Customer</h2>
           <p id="custPhoneDisplay" class="text-xs text-slate-300"></p>
         </div>
-        <button onclick="openScreenLockSetupOrLock()" class="bg-amber-400/20 text-amber-300 text-xs font-bold px-3.5 py-2 rounded-xl">🔒 Lock App</button>
+        <div class="flex gap-2">
+          <button onclick="openCustomerCareModal()" class="bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-bold px-3 py-2 rounded-xl">🎧 Customer Care Support</button>
+          <button onclick="openScreenLockSetupOrLock()" class="bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-2 rounded-xl">🔒 Lock App</button>
+        </div>
       </div>
 
-      <!-- Customer Design Builder & Request Form -->
+      <!-- Customer Design Builder & Catalog Selection -->
       <div class="bg-white p-5 sm:p-6 rounded-3xl border shadow-sm space-y-4">
         <h3 class="font-display font-extrabold text-lg text-slate-900">🎨 Choose Decor Design &amp; Request Flash Dispatch</h3>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Select location, budget range, and occasion. <strong>High-resolution decor pictures uploaded by verified vendors</strong> will automatically appear below (vendor names remain strictly anonymous for your privacy).
+          Select state, city, custom price range, occasion, date, and venue. Browse high-resolution vendor decor catalog pictures anonymously.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -231,25 +237,27 @@
             <select id="custCitySel" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
           </div>
           <div>
-            <label class="block font-bold mb-1">Price / Budget Range (₹)</label>
-            <select id="custBudgetRangeSel" onchange="filterSampleGallery()" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold">
-              <option value="10000">₹5,000 - ₹10,000 (Standard Decor)</option>
-              <option value="25000" selected>₹10,000 - ₹25,000 (Grand Theme Setup)</option>
-              <option value="50000">₹25,000 - ₹50,000 (Luxury Stage &amp; Entry)</option>
-              <option value="200000">₹50,000+ (Royal Celebrity Setup)</option>
-            </select>
+            <label class="block font-bold mb-1">Custom Price Range (₹)</label>
+            <div class="flex gap-2">
+              <input id="custMinPrice" type="number" placeholder="Min ₹" value="10000" class="w-1/2 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold" />
+              <input id="custMaxPrice" type="number" placeholder="Max ₹" value="30000" class="w-1/2 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold" />
+            </div>
           </div>
           <div>
-            <label class="block font-bold mb-1">Occasion</label>
-            <select id="custOccasionSel" onchange="filterSampleGallery()" class="w-full border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold">
-              <option value="Birthday">1st Birthday / Kids Party</option>
-              <option value="Wedding">Wedding / Reception Mandap</option>
-              <option value="Anniversary">Anniversary Celebration</option>
-              <option value="BabyShower">Baby Shower / Cradle Ceremony</option>
-            </select>
+            <label class="block font-bold mb-1">Occasion / Category (Custom or Preset)</label>
+            <div class="flex gap-2">
+              <select id="custOccasionSel" onchange="checkCustomOccasion()" class="w-1/2 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold">
+                <option value="Birthday">Birthday Party</option>
+                <option value="Wedding">Wedding Mandap</option>
+                <option value="Anniversary">Anniversary</option>
+                <option value="BabyShower">Baby Shower</option>
+                <option value="__CUSTOM__">+ Custom Occasion</option>
+              </select>
+              <input id="custCustomOccasionInput" type="hidden" placeholder="Type Occasion" class="w-1/2 border rounded-xl px-3 py-2.5 hidden" />
+            </div>
           </div>
           <div>
-            <label class="block font-bold mb-1">Event Date</label>
+            <label class="block font-bold mb-1">Date of Event</label>
             <input id="custEventDate" type="date" class="w-full border rounded-xl px-3 py-2.5" />
           </div>
           <div>
@@ -263,24 +271,24 @@
           <textarea id="custCustomNotes" rows="2" placeholder="Describe preferred colors, balloon sculptures, 3D backdrops..." class="w-full border rounded-xl p-3 text-xs"></textarea>
         </div>
 
-        <!-- Automatic Vendor-Uploaded Picture Gallery -->
+        <!-- Vendor Anonymous Decor Catalog Gallery -->
         <div class="space-y-2 pt-2 border-t">
-          <label class="block font-extrabold text-xs text-indigo-900 uppercase">📸 Vendor Decor Gallery (High-Res Pictures &amp; Price Ranges — Vendor Details Hidden)</label>
+          <label class="block font-extrabold text-xs text-indigo-900 uppercase">📸 Vendor Decor Catalog (High-Res Pictures &amp; Price Ranges — Vendor Details Hidden)</label>
           <div id="sampleGalleryGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
         </div>
 
         <button onclick="submitCustomerDesignRequest()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-2xl text-sm shadow-lg">
-          🚀 Send Selected Design to Admin for Flash Dispatch →
+          🚀 Send Design to Admin for Flash Dispatch →
         </button>
       </div>
 
       <div class="space-y-3">
-        <h3 class="font-display font-extrabold text-base text-slate-800">My Active Event Bookings &amp; Flash Dispatch Status</h3>
+        <h3 class="font-display font-extrabold text-base text-slate-800">My Active Event Bookings &amp; 4-Digit Completion OTP Status</h3>
         <div id="customerBookingsList" class="space-y-3"></div>
       </div>
     </section>
 
-    <!-- 2. VENDOR PORTAL (UPLOAD DECOR PICTURES WITH PRICE RANGES & FLASH FEED) -->
+    <!-- 2. VENDOR PORTAL -->
     <section id="screen-vendor-dash" class="hidden space-y-5 animate-fade-up">
       <div class="bg-slate-900 text-white p-5 rounded-3xl flex justify-between items-center">
         <div>
@@ -298,16 +306,11 @@
         </p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <input id="vendPicTitle" type="text" placeholder="Design Title (e.g. Royal Gold Arch)" class="bg-white border rounded-xl px-3 py-2.5 font-semibold" />
-          <select id="vendPicCat" class="bg-white border rounded-xl px-3 py-2.5 font-semibold">
-            <option value="Birthday">Birthday</option>
-            <option value="Wedding">Wedding</option>
-            <option value="Anniversary">Anniversary</option>
-            <option value="BabyShower">Baby Shower</option>
-          </select>
+          <input id="vendPicCat" type="text" placeholder="Occasion (e.g. Birthday / Wedding)" class="bg-white border rounded-xl px-3 py-2.5 font-semibold" />
           <input id="vendPicPrice" type="number" placeholder="Price (₹ e.g. 15000)" class="bg-white border rounded-xl px-3 py-2.5 font-semibold" />
         </div>
         <div>
-          <label class="block font-bold mb-1">Select High-Res Image File / Sample</label>
+          <label class="block font-bold mb-1">Select High-Res Image File</label>
           <input id="vendPicFile" type="file" accept="image/*" class="w-full bg-white border rounded-xl p-1.5" />
         </div>
         <button onclick="vendorUploadDecorPicture()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl shadow">
@@ -322,7 +325,7 @@
       </div>
 
       <div class="space-y-3 pt-3">
-        <h3 class="font-display font-extrabold text-base text-slate-900">📋 My Claimed Orders</h3>
+        <h3 class="font-display font-extrabold text-base text-slate-900">📋 My Claimed Orders &amp; 3-Photo Proof Upload</h3>
         <div id="vendorMyOrdersList" class="space-y-3"></div>
       </div>
     </section>
@@ -354,7 +357,8 @@
       </div>
 
       <div class="bg-cyan-50 border-2 border-cyan-300 p-5 rounded-3xl space-y-3">
-        <h3 class="font-display font-extrabold text-base text-cyan-950">✅ Child Admin Escrow Payout Approval Gate</h3>
+        <h3 class="font-display font-extrabold text-base text-cyan-950">✅ Child Admin Advance Payment Approval Gate</h3>
+        <p class="text-xs text-cyan-900">Admin must get Child Admin approval before releasing the 50% advance to the vendor. If Child Admin is unavailable in this city, Admin can approve directly.</p>
         <div id="caEscrowApprovalsList" class="space-y-3"></div>
       </div>
     </section>
@@ -399,7 +403,7 @@
   <div id="escrowPaymentModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-pop">
       <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-display font-extrabold text-lg text-slate-900">🛡️ Events360 Secure Escrow Checkout</h3>
+        <h3 class="font-display font-extrabold text-lg text-slate-900">🛡️ Events360 Secure Escrow Advance Checkout</h3>
         <button onclick="closeEscrowModal()" class="text-xl font-bold">&times;</button>
       </div>
       <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-xs space-y-2">
@@ -408,12 +412,69 @@
           <span id="escrowPayAmt" class="text-lg font-black text-emerald-700">₹0</span>
         </div>
         <p class="text-[11px] text-emerald-800 leading-relaxed">
-          Money is held securely in Events360 Escrow. Vendor details remain anonymous. Payout is released to the vendor only after your local <strong>Child Admin</strong> physically verifies and approves the completed event!
+          Pay strictly through Events360 Escrow. Admin will request approval from Child Admin before releasing advance funds to the vendor.
         </p>
       </div>
       <button onclick="completeEscrowPayment()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-2xl text-sm shadow">
-        Confirm Secure Escrow Payment ✓
+        Confirm Advance Escrow Payment ✓
       </button>
+    </div>
+  </div>
+
+  <div id="vendorProofModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-pop">
+      <h3 class="font-display font-extrabold text-lg text-slate-900">📸 Upload 3 Photos of Completed Decor</h3>
+      <input id="proofRequestIdInput" type="hidden" />
+      <div class="text-xs space-y-3">
+        <p class="text-slate-600">Upload 3 high-resolution photos of your completed decor at the venue. These will be sent to the customer and admin for verification.</p>
+        <div>
+          <label class="block font-bold mb-1">Select 3 Photos (or image files)</label>
+          <input id="proofPhotosInput" type="file" accept="image/*" multiple class="w-full border rounded-xl p-1.5" />
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="document.getElementById('vendorProofModal').classList.add('hidden')" class="flex-1 border py-2.5 rounded-xl text-xs font-bold">Cancel</button>
+        <button onclick="submitVendorProofPhotos()" class="flex-1 bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-xs">Upload &amp; Notify Customer ⬆</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="customerSatisfactionModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-pop">
+      <h3 class="font-display font-extrabold text-lg text-slate-900">✨ Inspect Decor &amp; Enter 4-Digit Completion Code</h3>
+      <input id="satRequestIdInput" type="hidden" />
+      <div class="text-xs space-y-3">
+        <p class="text-slate-600">Review the 3 decor photos uploaded by the vendor. If you are fully satisfied with the setup, enter your 4-digit completion code to pay the balance and release funds to the vendor!</p>
+        <div id="satPhotosPreview" class="grid grid-cols-3 gap-2"></div>
+        <div>
+          <label class="block font-bold mb-1">Enter 4-Digit Code (Demo Code: 4829)</label>
+          <input id="satCodeInput" type="text" maxlength="4" placeholder="4829" class="w-full border rounded-xl px-3 py-2.5 text-center text-lg tracking-[0.5em] font-bold" />
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="document.getElementById('customerSatisfactionModal').classList.add('hidden')" class="flex-1 border py-2.5 rounded-xl text-xs font-bold">Cancel</button>
+        <button onclick="verifyCustomerCompletionCode()" class="flex-1 bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs">Verify Code &amp; Pay Balance ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER CARE SUPPORT MODAL -->
+  <div id="customerCareModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-pop">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-display font-extrabold text-lg text-slate-900">🎧 Events360 Customer Care Support</h3>
+        <button onclick="document.getElementById('customerCareModal').classList.add('hidden')" class="text-xl font-bold">&times;</button>
+      </div>
+      <div class="text-xs space-y-3">
+        <p class="text-slate-600">Need help with your event booking, escrow payment, or design flash dispatch? Our support team is available 24/7.</p>
+        <div class="bg-indigo-50 p-3 rounded-2xl border border-indigo-200 space-y-1 text-indigo-950">
+          <div><strong>📞 Support Helpline:</strong> +91-9398934021 / +91-9951564594</div>
+          <div><strong>💬 WhatsApp Support:</strong> Instant assistance for event hosts &amp; verified vendors.</div>
+          <div><strong>🛡️ Guarantee:</strong> 100% Escrow Protection &amp; 120% Non-Delivery Refund Policy.</div>
+        </div>
+        <textarea id="supportQueryInput" rows="3" placeholder="Describe your issue or question here..." class="w-full border rounded-xl p-3 text-xs"></textarea>
+      </div>
+      <button onclick="submitSupportTicket()" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs shadow">Submit Support Ticket →</button>
     </div>
   </div>
 
@@ -430,7 +491,7 @@
   <div id="agreementsModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-3xl max-w-lg w-full p-5 space-y-3 shadow-2xl max-h-[85vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-display font-extrabold text-base">📜 Digital Agreements Ledger</h3>
+        <h3 class="font-display font-extrabold text-base">📜 E-Sign Agreements Ledger</h3>
         <button onclick="document.getElementById('agreementsModal').classList.add('hidden')" class="text-xl font-bold">&times;</button>
       </div>
       <div id="agreementsLedgerList" class="space-y-2 text-xs"></div>
@@ -444,7 +505,13 @@
       "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Secunderabad"],
       "Karnataka": ["Bengaluru", "Mysuru", "Hubballi", "Mangaluru", "Belagavi"],
       "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem"],
-      "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane"]
+      "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Thane"],
+      "Kerala": ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur"],
+      "Delhi": ["New Delhi", "North Delhi", "South Delhi", "West Delhi", "East Delhi"],
+      "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar"],
+      "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota", "Ajmer"],
+      "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi", "Agra", "Noida", "Ghaziabad"],
+      "West Bengal": ["Kolkata", "Howrah", "Durgapur", "Siliguri"]
     };
 
     const DEFAULT_SAMPLE_GALLERY = [
@@ -456,16 +523,16 @@
       { id: "s6", title: "Cradle Ceremony Traditional Decor", category: "BabyShower", priceTier: 15000, img: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80", vendorAnonymized: true }
     ];
 
-    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v19")) || [
+    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v20")) || [
       { id: "ca1", name: "Ramesh Kumar", officeName: "Rayachoti Hub", phone: "9848012345", city: "Rayachoti", state: "Andhra Pradesh", earnedCommission: 0 }
     ];
-    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v19")) || [
+    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v20")) || [
       { id: "v1", businessName: "PartyHub - SR Events", ownerName: "Asad Syed", phone: "9398934021", city: "Rayachoti", state: "Andhra Pradesh", isPhysicallyVerified: true, verifiedByCaId: "ca1" },
       { id: "v2", businessName: "Dildar & SR Events", ownerName: "Dildar", phone: "9951564594", city: "Madanapalle", state: "Andhra Pradesh", isPhysicallyVerified: false, verifiedByCaId: null }
     ];
-    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v19")) || DEFAULT_SAMPLE_GALLERY;
-    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v19")) || [];
-    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v19")) || [];
+    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v20")) || DEFAULT_SAMPLE_GALLERY;
+    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v20")) || [];
+    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v20")) || [];
 
     let currentSession = null;
     let selectedSamplePic = vendorDecorCatalog[0].img;
@@ -473,11 +540,11 @@
     let lockMode = "unlock";
 
     function saveData() {
-      localStorage.setItem("e360_ca_v19", JSON.stringify(childAdmins));
-      localStorage.setItem("e360_vendors_v19", JSON.stringify(vendors));
-      localStorage.setItem("e360_decor_catalog_v19", JSON.stringify(vendorDecorCatalog));
-      localStorage.setItem("e360_requests_v19", JSON.stringify(designRequests));
-      localStorage.setItem("e360_agreements_v19", JSON.stringify(agreements));
+      localStorage.setItem("e360_ca_v20", JSON.stringify(childAdmins));
+      localStorage.setItem("e360_vendors_v20", JSON.stringify(vendors));
+      localStorage.setItem("e360_decor_catalog_v20", JSON.stringify(vendorDecorCatalog));
+      localStorage.setItem("e360_requests_v20", JSON.stringify(designRequests));
+      localStorage.setItem("e360_agreements_v20", JSON.stringify(agreements));
     }
 
     function logAgreement(type, partyA, partyB, refId, summary) {
@@ -495,22 +562,34 @@
           <div><strong>Parties:</strong> ${esc(a.partyA)} ↔ ${esc(a.partyB)}</div>
           <div class="text-slate-600">${esc(a.summary)}</div>
         </div>
-      `).join("") : `<p class="text-slate-400">No agreements recorded yet.</p>`;
+      `).join("") : `<p class="text-slate-400">No e-sign agreements recorded yet.</p>`;
       document.getElementById("agreementsModal").classList.remove("hidden");
+    }
+
+    function openCustomerCareModal() {
+      document.getElementById("customerCareModal").classList.remove("hidden");
+    }
+
+    function submitSupportTicket() {
+      const msg = document.getElementById("supportQueryInput").value.trim();
+      if (!msg) { alert("Please enter your support query."); return; }
+      alert("Support ticket submitted successfully! Our customer care team will contact you shortly.");
+      document.getElementById("supportQueryInput").value = "";
+      document.getElementById("customerCareModal").classList.add("hidden");
     }
 
     function esc(str) { return String(str ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
     function persistSession(obj) {
       currentSession = { ...obj, expiresAt: Date.now() + 86400000 };
-      localStorage.setItem("e360_session_v19", JSON.stringify(currentSession));
+      localStorage.setItem("e360_session_v20", JSON.stringify(currentSession));
     }
 
     function restoreSession() {
-      const raw = localStorage.getItem("e360_session_v19");
+      const raw = localStorage.getItem("e360_session_v20");
       if (!raw) return;
       const s = JSON.parse(raw);
-      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v19"); return; }
+      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v20"); return; }
       currentSession = s;
       if (s.role === "customer") enterCustomerDash(s);
       if (s.role === "vendor") openVendorDash(vendors.find(v => v.phone === s.phone) || s, true);
@@ -520,7 +599,7 @@
 
     function logout() {
       currentSession = null;
-      localStorage.removeItem("e360_session_v19");
+      localStorage.removeItem("e360_session_v20");
       showScreen("screen-select", "Pan-India", false, false);
     }
 
@@ -568,7 +647,7 @@
 
     function switchRole() { showScreen("screen-select", "Pan-India", false, false); }
 
-    // POPULATE STATES & CITIES
+    // STATES & CITIES POPULATION
     function initStatesAndCities() {
       const states = Object.keys(INDIA_STATES_CITIES).sort();
       const stSel = document.getElementById("custStateSel");
@@ -592,9 +671,26 @@
       populateCustomerCities();
     }
 
+    function checkCustomOccasion() {
+      const val = document.getElementById("custOccasionSel").value;
+      const customInput = document.getElementById("custCustomOccasionInput");
+      if (val === "__CUSTOM__") {
+        customInput.classList.remove("hidden");
+        customInput.type = "text";
+        customInput.focus();
+      } else {
+        customInput.classList.add("hidden");
+        customInput.type = "hidden";
+      }
+      filterSampleGallery();
+    }
+
     function filterSampleGallery() {
-      const occasion = document.getElementById("custOccasionSel").value;
-      const filtered = vendorDecorCatalog.filter(item => item.category === occasion);
+      let occasion = document.getElementById("custOccasionSel").value;
+      if (occasion === "__CUSTOM__") {
+        occasion = document.getElementById("custCustomOccasionInput").value.trim() || "CustomOccasion";
+      }
+      const filtered = vendorDecorCatalog.filter(item => item.category.toLowerCase() === occasion.toLowerCase() || occasion === "CustomOccasion");
 
       document.getElementById("sampleGalleryGrid").innerHTML = filtered.map(item => `
         <div onclick="selectSamplePicture('${item.img}')" class="border-2 rounded-2xl p-2 cursor-pointer transition ${selectedSamplePic === item.img ? 'border-indigo-600 bg-indigo-50/50' : 'border-slate-200'}">
@@ -603,7 +699,14 @@
           <div class="text-[10px] text-indigo-700 font-black">₹${item.priceTier}</div>
           <div class="text-[9px] text-slate-400 italic">🔒 Vendor Anonymous</div>
         </div>
-      `).join("") || `<p class="text-xs text-slate-400 col-span-2">No decor pictures uploaded by vendors for this occasion yet.</p>`;
+      `).join("") || vendorDecorCatalog.map(item => `
+        <div onclick="selectSamplePicture('${item.img}')" class="border-2 rounded-2xl p-2 cursor-pointer transition ${selectedSamplePic === item.img ? 'border-indigo-600 bg-indigo-50/50' : 'border-slate-200'}">
+          <img src="${item.img}" class="w-full h-24 object-cover rounded-xl" />
+          <div class="font-bold text-[11px] mt-1 truncate">${esc(item.title)}</div>
+          <div class="text-[10px] text-indigo-700 font-black">₹${item.priceTier}</div>
+          <div class="text-[9px] text-slate-400 italic">🔒 Vendor Anonymous</div>
+        </div>
+      `).join("");
     }
 
     function selectSamplePicture(url) {
@@ -611,7 +714,7 @@
       filterSampleGallery();
     }
 
-    // CUSTOMER AUTH & BOOKING
+    // CUSTOMER LOGIN & BOOKING
     function sendCustomerOtp() {
       document.getElementById("cust-step-1").classList.add("hidden");
       document.getElementById("cust-step-2").classList.remove("hidden");
@@ -639,8 +742,12 @@
     function submitCustomerDesignRequest() {
       const state = document.getElementById("custStateSel").value;
       const city = document.getElementById("custCitySel").value;
-      const budget = Number(document.getElementById("custBudgetRangeSel").value);
-      const occasion = document.getElementById("custOccasionSel").value;
+      const minPrice = Number(document.getElementById("custMinPrice").value) || 10000;
+      const maxPrice = Number(document.getElementById("custMaxPrice").value) || 30000;
+      let occasion = document.getElementById("custOccasionSel").value;
+      if (occasion === "__CUSTOM__") {
+        occasion = document.getElementById("custCustomOccasionInput").value.trim() || "Custom Event";
+      }
       const eventDate = document.getElementById("custEventDate").value;
       const venue = document.getElementById("custVenueInput").value.trim();
       const notes = document.getElementById("custCustomNotes").value.trim();
@@ -651,21 +758,25 @@
         requestId: "REQ-" + Date.now().toString().slice(-6),
         customerName: currentSession.name,
         customerPhone: currentSession.phone,
-        state, city, budget, occasion, eventDate, venue, notes,
+        state, city, minPrice, maxPrice, occasion, eventDate, venue, notes,
         samplePicture: selectedSamplePic,
-        adminCustomizedPrice: budget,
-        status: "pending_admin_pricing",
+        adminCustomizedPrice: Math.round((minPrice + maxPrice) / 2),
+        status: "pending_admin_pricing", // pending_admin_pricing -> waiting_ca_advance_approval -> broadcasted_to_vendors -> claimed_by_vendor -> escrow_paid -> ca_approved -> proof_uploaded -> completed
         claimedVendorId: null,
         claimedVendorName: null,
         advancePaid: false,
+        caAdvanceApproved: false,
         caApproved: false,
+        completionOtp: "4829",
+        proofPhotos: [],
         completed: false
       };
 
       designRequests.unshift(req);
+      logAgreement("Customer → Admin Platform Agreement", currentSession.name, "Events360 Super Admin", req.requestId, `Design request for ${occasion} in ${city} (${state}) for ₹${req.adminCustomizedPrice}.`);
       saveData();
       renderCustomerBookings();
-      alert(`Design & Request ${req.requestId} sent to Admin! Admin will customize the price and broadcast to all verified vendors.`);
+      alert(`Design & Request ${req.requestId} sent to Admin! Admin will customize price and initiate flash dispatch.`);
     }
 
     function renderCustomerBookings() {
@@ -675,7 +786,7 @@
           <div class="flex justify-between items-center font-bold">
             <span class="text-sm">${esc(r.requestId)} — ${esc(r.occasion)} (${esc(r.city)})</span>
             <span class="px-2.5 py-1 rounded-full font-bold text-[10px] ${r.completed ? 'bg-emerald-100 text-emerald-800' : r.claimedVendorId ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'}">
-              ${r.completed ? '✓ Event Completed & Delivered' : r.claimedVendorId ? '⚡ Vendor Assigned (Flash Dispatch)' : '⏳ Admin Customizing Price'}
+              ${r.completed ? '✓ Event Completed & Balance Paid' : r.proofPhotos.length > 0 ? '📸 Decor Photos Uploaded (Inspect & Enter Code)' : r.claimedVendorId ? '⚡ Vendor Assigned (Flash Dispatch)' : '⏳ Admin Customizing Price'}
             </span>
           </div>
 
@@ -699,10 +810,22 @@
                 🛡️ Pay ₹${Math.round(r.adminCustomizedPrice * 0.5)} Advance Escrow
               </button>
             </div>
-          ` : r.advancePaid && !r.caApproved ? `
-            <div class="text-indigo-700 font-bold">✓ Advance Paid to Escrow. Awaiting Child Admin physical site inspection &amp; approval.</div>
-          ` : r.caApproved && !r.completed ? `
-            <div class="text-emerald-700 font-bold">✓ Child Admin Approved! Event in progress / completed.</div>
+          ` : r.advancePaid && !r.caAdvanceApproved ? `
+            <div class="text-amber-700 font-bold">⏳ Advance Paid. Awaiting Child Admin approval for advance release to vendor.</div>
+          ` : r.caAdvanceApproved && r.proofPhotos.length === 0 && !r.completed ? `
+            <div class="text-indigo-700 font-bold">✓ Advance Released to Vendor. Awaiting vendor work completion &amp; 3 photos upload.</div>
+          ` : r.proofPhotos.length > 0 && !r.completed ? `
+            <div class="bg-indigo-50 border border-indigo-200 p-3.5 rounded-2xl space-y-2">
+              <div class="font-bold text-indigo-950">📸 Vendor Uploaded 3 Completed Decor Photos! Inspect and Enter 4-Digit Code to Release Balance:</div>
+              <div class="grid grid-cols-3 gap-2">
+                ${r.proofPhotos.map(p => `<img src="${p}" class="h-16 w-full object-cover rounded-xl border" />`).join("")}
+              </div>
+              <button onclick="openCustomerSatisfactionModal('${r.requestId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow">
+                ✨ Inspect Decor &amp; Enter 4-Digit Completion Code →
+              </button>
+            </div>
+          ` : r.completed ? `
+            <div class="text-emerald-700 font-bold">✓ Event completed successfully. Balance paid (minus 2% Child Admin commission).</div>
           ` : ""}
         </div>
       `).join("") || `<p class="text-xs text-slate-400">No design requests submitted yet.</p>`;
@@ -722,10 +845,42 @@
       saveData();
       closeEscrowModal();
       renderCustomerBookings();
-      alert("Secure Escrow payment successful! Child Admin notified for site inspection.");
+      alert("Secure Escrow advance payment received! Admin has sent approval request to local Child Admin.");
     }
 
-    // SUPER ADMIN LOGIN & PANEL
+    function openCustomerSatisfactionModal(reqId) {
+      document.getElementById("satRequestIdInput").value = reqId;
+      document.getElementById("satCodeInput").value = "";
+      const r = designRequests.find(item => item.requestId === reqId);
+      document.getElementById("satPhotosPreview").innerHTML = r.proofPhotos.map(p => `<img src="${p}" class="h-20 w-full object-cover rounded-xl border" />`).join("");
+      document.getElementById("customerSatisfactionModal").classList.remove("hidden");
+    }
+
+    function verifyCustomerCompletionCode() {
+      const reqId = document.getElementById("satRequestIdInput").value;
+      const enteredCode = document.getElementById("satCodeInput").value.trim();
+      const r = designRequests.find(item => item.requestId === reqId);
+
+      if (enteredCode !== r.completionOtp) {
+        alert("Invalid 4-digit completion code! Please check with the vendor setup team at your venue.");
+        return;
+      }
+
+      // Success! Balance paid, 2% commission deducted for child admin, remaining balance sent to vendor
+      const balanceAmt = r.adminCustomizedPrice - Math.round(r.adminCustomizedPrice * 0.5);
+      const commission = Math.round(r.adminCustomizedPrice * 0.02);
+
+      childAdmins = childAdmins.map(c => c.city.toLowerCase() === r.city.toLowerCase() ? { ...c, earnedCommission: (c.earnedCommission || 0) + commission } : c);
+      designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, completed: true } : item);
+
+      logAgreement("Customer Balance Payment & Payout Release", r.customerName, r.claimedVendorName || "Vendor", r.requestId, `4-digit code verified. Balance ₹${balanceAmt} paid. 2% Child Admin commission (₹${commission}) credited.`);
+      saveData();
+      document.getElementById("customerSatisfactionModal").classList.add("hidden");
+      renderCustomerBookings();
+      alert("✓ 4-Digit Code Verified! Balance payment processed successfully. Thank you for booking with Events360!");
+    }
+
+    // SUPER ADMIN COMMAND CENTER
     function loginAdmin() {
       const email = document.getElementById("adminEmailInput").value.trim();
       const pass = document.getElementById("adminPassInput").value.trim();
@@ -744,15 +899,13 @@
             <span class="text-indigo-600">${esc(r.city)}, ${esc(r.state)}</span>
           </div>
           <div>Occasion: <strong>${esc(r.occasion)}</strong> • Date: ${esc(r.eventDate)} • Venue: ${esc(r.venue)}</div>
-          <div>Customer Budget: ₹${esc(r.budget)} | <strong>Customized Price: <span class="text-indigo-700 text-sm">₹${r.adminCustomizedPrice}</span></strong></div>
+          <div>Customer Price Range: ₹${esc(r.minPrice)} - ₹${esc(r.maxPrice)} | <strong>Customized Price: <span class="text-indigo-700 text-sm">₹${r.adminCustomizedPrice}</span></strong></div>
 
           <div class="flex justify-between items-center pt-2">
             <span class="font-semibold text-slate-700">Status: ${esc(r.status)}</span>
-            <div class="flex gap-2">
-              <button onclick="openPriceCustomizer('${r.requestId}')" class="bg-slate-900 text-white font-bold px-3.5 py-1.5 rounded-xl">
-                ⚙️ Customize Price &amp; Broadcast ⚡
-              </button>
-            </div>
+            <button onclick="openPriceCustomizer('${r.requestId}')" class="bg-slate-900 text-white font-bold px-3.5 py-1.5 rounded-xl">
+              ⚙️ Customize Price &amp; Broadcast ⚡
+            </button>
           </div>
         </div>
       `).join("") || `<p class="text-xs text-slate-400">No inbound customer requests.</p>`;
@@ -761,14 +914,14 @@
     function openPriceCustomizer(reqId) {
       const r = designRequests.find(item => item.requestId === reqId);
       document.getElementById("customizerRequestIdInput").value = reqId;
-      document.getElementById("customizerRequestMeta").innerText = `Customer: ${r.customerName} (${r.city}) | Initial Budget: ₹${r.budget}`;
+      document.getElementById("customizerRequestMeta").innerText = `Customer: ${r.customerName} (${r.city}) | Range: ₹${r.minPrice} - ₹${r.maxPrice}`;
       document.getElementById("adminCustomPriceInput").value = r.adminCustomizedPrice;
       document.getElementById("adminPriceCustomizerModal").classList.remove("hidden");
     }
 
     function confirmBroadcastToVendors() {
       const reqId = document.getElementById("customizerRequestIdInput").value;
-      const newPrice = Number(document.getElementById("adminCustomPriceInput").value) || 10000;
+      const newPrice = Number(document.getElementById("adminCustomPriceInput").value) || 15000;
 
       designRequests = designRequests.map(r => r.requestId === reqId ? {
         ...r,
@@ -779,7 +932,7 @@
       saveData();
       document.getElementById("adminPriceCustomizerModal").classList.add("hidden");
       renderAdminPanel();
-      alert("⚡ Request successfully broadcasted to ALL verified vendors in that city simultaneously!");
+      alert("⚡ Request successfully broadcasted to ALL verified vendors with custom price!");
     }
 
     // VENDOR PORTAL (UPLOAD DECOR PICTURES & FLASH FEED)
@@ -810,11 +963,11 @@
 
     async function vendorUploadDecorPicture() {
       const title = document.getElementById("vendPicTitle").value.trim();
-      const category = document.getElementById("vendPicCat").value;
+      const category = document.getElementById("vendPicCat").value.trim();
       const price = Number(document.getElementById("vendPicPrice").value) || 15000;
       const fileInput = document.getElementById("vendPicFile").files[0];
 
-      if (!title) { alert("Please enter a title for your decor design."); return; }
+      if (!title || !category) { alert("Please enter title and occasion category."); return; }
 
       const imgUrl = await fileToBase64(fileInput);
       const newDecor = {
@@ -828,12 +981,14 @@
       };
 
       vendorDecorCatalog.unshift(newDecor);
+      logAgreement("Vendor Decor Catalog Upload", currentSession.vendor.businessName, "Events360 Platform", newDecor.id, `Uploaded decor picture '${title}' under ${category} for ₹${price}.`);
       saveData();
       document.getElementById("vendPicTitle").value = "";
+      document.getElementById("vendPicCat").value = "";
       document.getElementById("vendPicPrice").value = "";
       document.getElementById("vendPicFile").value = "";
       renderVendorFeeds(currentSession.vendor);
-      alert("✓ Decor picture uploaded successfully! It is now live in the anonymous customer catalog with your price range.");
+      alert("✓ Decor picture uploaded successfully! Now live in anonymous customer catalog.");
     }
 
     function renderVendorFeeds(v) {
@@ -858,7 +1013,7 @@
 
       const myClaimed = designRequests.filter(r => r.claimedVendorId === v.id);
       document.getElementById("vendorOrdersList").innerHTML = myClaimed.map(r => `
-        <div class="bg-white p-4 rounded-3xl border text-xs space-y-2">
+        <div class="bg-white p-4 rounded-3xl border text-xs space-y-2.5">
           <div class="flex justify-between font-bold text-sm">
             <span>${esc(r.requestId)} — ${esc(r.occasion)}</span>
             <span class="text-indigo-700 font-black">₹${r.adminCustomizedPrice}</span>
@@ -866,8 +1021,16 @@
           <div>Customer: <strong>${esc(r.customerName)} (+91-${esc(r.customerPhone)})</strong></div>
           <div>Venue: ${esc(r.venue)} (${esc(r.eventDate)})</div>
           <div class="text-emerald-700 font-bold">
-            ${r.advancePaid ? "✓ Escrow Advance Received. Proceed with decor setup." : "⏳ Waiting for customer to pay advance escrow."}
+            ${r.advancePaid ? (r.caAdvanceApproved ? "✓ Advance Approved by Child Admin. Setup Event!" : "⏳ Escrow Paid. Waiting for Child Admin approval.") : "⏳ Waiting for customer advance escrow payment."}
           </div>
+
+          ${r.caAdvanceApproved && r.proofPhotos.length === 0 ? `
+            <button onclick="openVendorProofModal('${r.requestId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl shadow text-xs">
+              📸 Upload 3 Photos of Completed Decor Work →
+            </button>
+          ` : r.proofPhotos.length > 0 ? `
+            <div class="text-emerald-700 font-bold">✓ 3 Decor Photos Uploaded. Waiting for customer completion code inspection.</div>
+          ` : ""}
         </div>
       `).join("") || `<p class="text-xs text-slate-400">No claimed orders yet.</p>`;
     }
@@ -880,12 +1043,35 @@
         status: "claimed_by_vendor"
       } : r);
 
+      logAgreement("Vendor → Platform Service Agreement", vendorName, "Events360 Admin", reqId, `Claimed flash dispatch order ${reqId}.`);
       saveData();
       openVendorDash(vendors.find(v => v.id === vendorId));
       alert("⚡ SUCCESS! You grabbed the order first! Customer notified to pay advance escrow.");
     }
 
-    // CHILD ADMIN LOGIN & ESCROW APPROVAL
+    function openVendorProofModal(reqId) {
+      document.getElementById("proofRequestIdInput").value = reqId;
+      document.getElementById("vendorProofModal").classList.remove("hidden");
+    }
+
+    async function submitVendorProofPhotos() {
+      const reqId = document.getElementById("proofRequestIdInput").value;
+      const fileInput = document.getElementById("proofPhotosInput").files;
+      if (!fileInput || fileInput.length < 3) { alert("Please select at least 3 photos of your completed decor."); return; }
+
+      const photos = [];
+      for (let i = 0; i < Math.min(fileInput.length, 3); i++) {
+        photos.push(await fileToBase64(fileInput[i]));
+      }
+
+      designRequests = designRequests.map(r => r.requestId === reqId ? { ...r, proofPhotos: photos } : r);
+      saveData();
+      document.getElementById("vendorProofModal").classList.add("hidden");
+      renderVendorFeeds(currentSession.vendor);
+      alert("✓ 3 Decor photos uploaded successfully and sent to customer and admin for inspection!");
+    }
+
+    // CHILD ADMIN LOGIN & APPROVAL
     function loginChildAdmin() {
       const phone = document.getElementById("caPhoneInput").value.trim();
       const ca = childAdmins.find(c => c.phone === phone);
@@ -918,32 +1104,27 @@
         <div class="bg-white p-4 rounded-2xl border text-xs space-y-2">
           <div class="flex justify-between font-bold">
             <span>${esc(r.requestId)} — ${esc(r.occasion)} (${esc(r.customerName)})</span>
-            <span class="text-emerald-700">Escrow Funded: ₹${r.adminCustomizedPrice}</span>
+            <span class="text-emerald-700">Advance Escrow Funded: ₹${Math.round(r.adminCustomizedPrice * 0.5)}</span>
           </div>
           <div>Vendor: <strong>${esc(r.claimedVendorName || 'Assigned')}</strong> • Venue: ${esc(r.venue)}</div>
           <div class="flex justify-between items-center pt-1">
-            <span>Child Admin Approval Status: <strong>${r.caApproved ? 'Approved ✓' : 'Pending Inspection'}</strong></span>
-            ${!r.caApproved ? `
-              <button onclick="childAdminApproveEscrow('${r.requestId}', '${ca.id}')" class="bg-cyan-600 hover:bg-cyan-700 text-white font-extrabold px-3.5 py-1.5 rounded-xl">
-                ✓ Physically Inspect &amp; Approve Payout (Earn 2% Commission)
+            <span>Child Admin Advance Approval: <strong>${r.caAdvanceApproved ? 'Approved ✓' : 'Pending Approval'}</strong></span>
+            ${!r.caAdvanceApproved ? `
+              <button onclick="childAdminApproveAdvance('${r.requestId}', '${ca.id}')" class="bg-cyan-600 hover:bg-cyan-700 text-white font-extrabold px-3.5 py-1.5 rounded-xl">
+                ✓ Approve Advance Release to Vendor
               </button>
-            ` : `<span class="text-emerald-700 font-bold">✓ Approved for Payout Release</span>`}
+            ` : `<span class="text-emerald-700 font-bold">✓ Approved</span>`}
           </div>
         </div>
-      `).join("") || `<p class="text-xs text-cyan-900/70">No active escrow approvals in ${esc(ca.city)}.</p>`;
+      `).join("") || `<p class="text-xs text-cyan-900/70">No advance payment approval requests in ${esc(ca.city)}.</p>`;
     }
 
-    function childAdminApproveEscrow(reqId, caId) {
-      const r = designRequests.find(item => item.requestId === reqId);
-      const commission = Math.round(r.adminCustomizedPrice * 0.02);
-
-      childAdmins = childAdmins.map(c => c.id === caId ? { ...c, earnedCommission: (c.earnedCommission || 0) + commission } : c);
-      designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, caApproved: true, completed: true } : item);
-
-      logAgreement("Child Admin Escrow Approval & 2% Commission", `Child Admin (${caId})`, r.claimedVendorName || "Vendor", r.requestId, `Physical inspection completed. 2% commission (₹${commission}) credited to Child Admin.`);
+    function childAdminApproveAdvance(reqId, caId) {
+      designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, caAdvanceApproved: true } : item);
+      logAgreement("Child Admin Advance Approval", `Child Admin (${caId})`, "Events360 Admin", reqId, "Approved 50% advance release to vendor.");
       saveData();
       openChildAdminDash(childAdmins.find(c => c.id === caId));
-      alert(`Escrow Approved! 2% commission (₹${commission}) credited to your ledger. Funds released to vendor.`);
+      alert("✓ Advance release approved! Vendor notified to start setup.");
     }
 
     syncPanIndiaCities();
