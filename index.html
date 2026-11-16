@@ -43,7 +43,7 @@
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans min-h-screen antialiased">
 
-  <!-- HEADER -->
+  <!-- HEADER (SINGLE UNIFIED LOCK BUTTON ON TOP RIGHT) -->
   <header class="bg-slate-950/95 backdrop-blur-xl text-white px-3 sm:px-5 py-2.5 flex items-center justify-between gap-1 border-b border-white/10 sticky top-0 z-30 w-full">
     <div onclick="switchRole()" class="flex items-center gap-2 cursor-pointer shrink-0">
       <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 flex items-center justify-center shadow shrink-0">
@@ -286,7 +286,6 @@
         </div>
         <div class="flex gap-2">
           <button onclick="openCustomerCareModal()" class="bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-bold px-3 py-2 rounded-xl">🎧 Customer Care Support</button>
-          <button onclick="openScreenLockSetupOrLock()" class="bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-2 rounded-xl">🔒 Lock App</button>
         </div>
       </div>
 
@@ -376,7 +375,6 @@
           <h2 id="vendDashTitle" class="font-display font-extrabold text-xl text-emerald-300">Verified Vendor Portal</h2>
           <p id="vendDashSub" class="text-xs text-slate-300"></p>
         </div>
-        <button onclick="openScreenLockSetupOrLock()" class="bg-amber-400/20 text-amber-300 text-xs font-bold px-3.5 py-2 rounded-xl">🔒 Lock</button>
       </div>
 
       <!-- Bank Details Input for Advance / Payout -->
@@ -428,7 +426,6 @@
           <h2 id="caDashTitle" class="font-display font-extrabold text-xl text-cyan-300">Child Admin City Portal</h2>
           <p id="caDashSub" class="text-xs text-slate-300"></p>
         </div>
-        <button onclick="openScreenLockSetupOrLock()" class="bg-amber-400/20 text-amber-300 text-xs font-bold px-3.5 py-2 rounded-xl">🔒 Lock</button>
       </div>
 
       <div class="grid grid-cols-2 gap-3">
@@ -464,7 +461,6 @@
           <h2 class="font-display font-extrabold text-xl text-amber-400">Super Admin Command Center</h2>
           <p class="text-xs text-slate-300">Manage all bookings, pricing, vendor assignments, bank details, cloud links, and escrow approvals.</p>
         </div>
-        <button onclick="openScreenLockSetupOrLock()" class="bg-amber-400/20 text-amber-300 text-xs font-bold px-3.5 py-2 rounded-xl">🔒 Lock</button>
       </div>
 
       <!-- Admin Configuration Panel (Bank, Cloud Link, Support Helpline) -->
@@ -632,7 +628,7 @@
 
   <!-- SCRIPT -->
   <script>
-    const INDIA_STATES_CITIES = {
+    let INDIA_STATES_CITIES = {
       "Andhra Pradesh": ["Rayachoti", "Madanapalle", "Tirupati", "Visakhapatnam", "Vijayawada", "Kurnool", "Anantapur", "Nellore", "Kadapa"],
       "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Karimnagar", "Khammam", "Secunderabad"],
       "Karnataka": ["Bengaluru", "Mysuru", "Hubballi", "Mangaluru", "Belagavi"],
@@ -655,17 +651,17 @@
       { id: "s6", title: "Cradle Ceremony Traditional Decor", category: "BabyShower", priceTier: 15000, img: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80", vendorAnonymized: true }
     ];
 
-    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v23")) || [
+    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v24")) || [
       { id: "ca1", name: "Ramesh Kumar", officeName: "Rayachoti Hub", phone: "9848012345", city: "Rayachoti", state: "Andhra Pradesh", earnedCommission: 0 }
     ];
-    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v23")) || [
+    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v24")) || [
       { id: "v1", businessName: "PartyHub - SR Events", ownerName: "Asad Syed", phone: "9398934021", city: "Rayachoti", state: "Andhra Pradesh", isPhysicallyVerified: true, verifiedByCaId: "ca1", bankDetails: { holder: "Asad Syed", acct: "1234567890", ifsc: "HDFC0000123" } },
       { id: "v2", businessName: "Dildar & SR Events", ownerName: "Dildar", phone: "9951564594", city: "Madanapalle", state: "Andhra Pradesh", isPhysicallyVerified: false, verifiedByCaId: null }
     ];
-    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v23")) || DEFAULT_SAMPLE_GALLERY;
-    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v23")) || [];
-    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v23")) || [];
-    let platformConfig = JSON.parse(localStorage.getItem("e360_config_v23")) || {
+    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v24")) || DEFAULT_SAMPLE_GALLERY;
+    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v24")) || [];
+    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v24")) || [];
+    let platformConfig = JSON.parse(localStorage.getItem("e360_config_v24")) || {
       bank: "Events360 Escrow • HDFC A/C: 50200088991122",
       cloudLink: "https://drive.google.com/drive/folders/events360-assets",
       supportPhone: "+91-9398934021"
@@ -677,12 +673,12 @@
     let lockMode = "unlock";
 
     function saveData() {
-      localStorage.setItem("e360_ca_v23", JSON.stringify(childAdmins));
-      localStorage.setItem("e360_vendors_v23", JSON.stringify(vendors));
-      localStorage.setItem("e360_decor_catalog_v23", JSON.stringify(vendorDecorCatalog));
-      localStorage.setItem("e360_requests_v23", JSON.stringify(designRequests));
-      localStorage.setItem("e360_agreements_v23", JSON.stringify(agreements));
-      localStorage.setItem("e360_config_v23", JSON.stringify(platformConfig));
+      localStorage.setItem("e360_ca_v24", JSON.stringify(childAdmins));
+      localStorage.setItem("e360_vendors_v24", JSON.stringify(vendors));
+      localStorage.setItem("e360_decor_catalog_v24", JSON.stringify(vendorDecorCatalog));
+      localStorage.setItem("e360_requests_v24", JSON.stringify(designRequests));
+      localStorage.setItem("e360_agreements_v24", JSON.stringify(agreements));
+      localStorage.setItem("e360_config_v24", JSON.stringify(platformConfig));
     }
 
     function logAgreement(type, partyA, partyB, refId, summary) {
@@ -721,14 +717,14 @@
 
     function persistSession(obj) {
       currentSession = { ...obj, expiresAt: Date.now() + 86400000 };
-      localStorage.setItem("e360_session_v23", JSON.stringify(currentSession));
+      localStorage.setItem("e360_session_v24", JSON.stringify(currentSession));
     }
 
     function restoreSession() {
-      const raw = localStorage.getItem("e360_session_v23");
+      const raw = localStorage.getItem("e360_session_v24");
       if (!raw) return;
       const s = JSON.parse(raw);
-      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v23"); return; }
+      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v24"); return; }
       currentSession = s;
       if (s.role === "customer") enterCustomerDash(s);
       if (s.role === "vendor") openVendorDash(vendors.find(v => v.phone === s.phone) || s, true);
@@ -738,7 +734,7 @@
 
     function logout() {
       currentSession = null;
-      localStorage.removeItem("e360_session_v23");
+      localStorage.removeItem("e360_session_v24");
       showScreen("screen-select", "Pan-India", false, false);
     }
 
@@ -810,7 +806,7 @@
       });
     }
 
-    // VENDOR SELF-REGISTRATION
+    // VENDOR SELF-REGISTRATION & LOGIN FIX
     async function submitVendorRegistration() {
       const biz = document.getElementById("vrBiz").value.trim();
       const owner = document.getElementById("vrOwner").value.trim();
@@ -836,13 +832,21 @@
       };
 
       vendors.unshift(newV);
-      logAgreement("Vendor Self-Registration E-Sign Agreement", biz, "Events360 Platform", newV.id, `Vendor self-registered in ${city}.`);
+      logAgreement("Vendor Self-Registration E-Sign Agreement", biz, "Events360 Platform", newV.id, `Vendor self-registered in ${city}. Awaiting Child Admin verification.`);
       saveData();
-      alert("✓ Vendor self-registration successful! You can now log in.");
+      alert("✓ Vendor self-registration successful! Your application is sent to the City Partner for physical verification. You can now log in.");
       toggleVendAuth("log");
     }
 
-    // CHILD ADMIN SELF-REGISTRATION
+    function loginVendor() {
+      const phone = document.getElementById("vlPhone").value.trim();
+      const v = vendors.find(item => item.phone === phone);
+      if (!v) { alert("Vendor not found with this mobile number. Please check or register first."); return; }
+      persistSession({ role: "vendor", phone: v.phone, vendor: v });
+      openVendorDash(v);
+    }
+
+    // CHILD ADMIN SELF-REGISTRATION & LOGIN FIX
     async function submitChildAdminRegistration() {
       const name = document.getElementById("carName").value.trim();
       const office = document.getElementById("carOffice").value.trim();
@@ -868,7 +872,29 @@
       toggleCAAuth("log");
     }
 
-    // STATES & CITIES POPULATION
+    function loginChildAdmin() {
+      const phone = document.getElementById("calPhone").value.trim();
+      const ca = childAdmins.find(c => c.phone === phone);
+      if (!ca) { alert("Child Admin not found with this mobile number. Please check or register first."); return; }
+      persistSession({ role: "child_admin", phone: ca.phone, ca });
+      openChildAdminDash(ca);
+    }
+
+    // FETCHING INDIA STATES & DISTRICTS JSON DYNAMICALLY
+    async function syncPanIndiaStatesAndDistricts() {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/sabithanso/india-states-districts-json/master/states-and-districts.json");
+        const data = await res.json();
+        if (data && data.states) {
+          INDIA_STATES_CITIES = {};
+          data.states.forEach(st => {
+            INDIA_STATES_CITIES[st.state] = st.districts;
+          });
+        }
+      } catch(e) {}
+      initStatesAndCities();
+    }
+
     function initStatesAndCities() {
       const states = Object.keys(INDIA_STATES_CITIES).sort();
       const stSel = document.getElementById("custStateSel");
@@ -991,6 +1017,7 @@
         samplePicture: finalImage,
         adminCustomizedPrice: Math.round((minPrice + maxPrice) / 2),
         status: "pending_admin_pricing",
+        priceConfirmedByAdmin: false,
         assignedVendorId: null,
         assignedVendorName: null,
         advancePaid: false,
@@ -1021,7 +1048,11 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>Date: <strong>${esc(r.eventDate)}</strong> • Venue: ${esc(r.venue)}</div>
-            <div>Total Final Price: <strong class="text-indigo-700 text-sm">₹${r.adminCustomizedPrice}</strong></div>
+            <div>
+              ${r.priceConfirmedByAdmin 
+                ? `Total Final Price: <strong class="text-indigo-700 text-sm">₹${r.adminCustomizedPrice}</strong>` 
+                : `<span class="text-amber-600 font-bold">Price under review by Admin (Will be displayed upon confirmation)</span>`}
+            </div>
           </div>
 
           <div class="flex items-center gap-3 bg-slate-50 p-2.5 rounded-2xl border">
@@ -1032,7 +1063,7 @@
             </div>
           </div>
 
-          ${r.status === 'broadcasted_to_vendors' || (r.assignedVendorId && !r.advancePaid) ? `
+          ${r.priceConfirmedByAdmin && (r.status === 'broadcasted_to_vendors' || (r.assignedVendorId && !r.advancePaid)) ? `
             <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl flex justify-between items-center">
               <span class="font-bold text-emerald-950">Pay 50% Advance via Events360 Secure App Checkout:</span>
               <button onclick="openEscrowModal('${r.requestId}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2 rounded-xl shadow">
@@ -1167,7 +1198,7 @@
       document.getElementById("adminCustomPriceInput").value = r.adminCustomizedPrice;
 
       const sel = document.getElementById("adminAssignVendorSelect");
-      const cityVendors = vendors.filter(v => v.city.toLowerCase() === r.city.toLowerCase());
+      const cityVendors = vendors.filter(v => v.city.toLowerCase() === r.city.toLowerCase() && v.isPhysicallyVerified);
       const targetVendors = cityVendors.length > 0 ? cityVendors : vendors;
       sel.innerHTML = targetVendors.map(v => `<option value="${v.id}">${esc(v.businessName)} (${esc(v.city)})</option>`).join("");
 
@@ -1180,19 +1211,24 @@
       const vendorId = document.getElementById("adminAssignVendorSelect").value;
       const vend = vendors.find(v => v.id === vendorId);
 
+      if (vend && !vend.isPhysicallyVerified) {
+        alert("⚠️ ALERT: You assigned an UNVERIFIED vendor! Child Admin and Admin must verify this vendor immediately before dispatch.");
+      }
+
       designRequests = designRequests.map(r => r.requestId === reqId ? {
         ...r,
         adminCustomizedPrice: newPrice,
+        priceConfirmedByAdmin: true,
         assignedVendorId: vendorId,
         assignedVendorName: vend ? vend.businessName : "Assigned Vendor",
         status: "waiting_ca_advance_approval"
       } : r);
 
-      logAgreement("Admin → Vendor E-Sign Agreement", "Events360 Admin", vend ? vend.businessName : "Assigned Vendor", reqId, `Customized price set to ₹${newPrice}. Sent for CA approval.`);
+      logAgreement("Admin → Vendor E-Sign Agreement", "Events360 Admin", vend ? vend.businessName : "Assigned Vendor", reqId, `Customized price set to ₹${newPrice}. Sent to customer and CA approval.`);
       saveData();
       document.getElementById("adminPriceCustomizerModal").classList.add("hidden");
       renderAdminPanel();
-      alert("✓ Price customized and sent for Child Admin approval (or direct release if no CA in city).");
+      alert("✓ Price confirmed and sent to customer & Child Admin approval!");
     }
 
     // VENDOR PORTAL
@@ -1341,17 +1377,27 @@
       showScreen("screen-child-admin-dash", "Child Admin", false, true);
 
       const cityVendors = vendors.filter(v => v.city.toLowerCase() === ca.city.toLowerCase());
-      document.getElementById("caStatVendors").innerText = cityVendors.length;
+      document.getElementById("caStatVendors").innerText = cityVendors.filter(v => v.isPhysicallyVerified).length;
       document.getElementById("caStatComm").innerText = `₹${ca.earnedCommission || 0}`;
 
-      document.getElementById("caVendorsVerifyList").innerHTML = cityVendors.map(v => `
+      const unverifiedCityVendors = cityVendors.filter(v => !v.isPhysicallyVerified);
+      document.getElementById("caUnverifiedVendorsList").innerHTML = unverifiedCityVendors.map(v => `
+        <div class="p-3 rounded-2xl border bg-white flex justify-between items-center text-xs">
+          <div><strong>${esc(v.businessName)}</strong> (${esc(v.ownerName)}) • +91-${esc(v.phone)} • City: ${esc(v.city)}</div>
+          <button onclick="childAdminVerifySelfVendor('${v.id}', '${ca.id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl">
+            ✓ Physically Verify &amp; Add to Verified List
+          </button>
+        </div>
+      `).join("") || `<p class="text-xs text-amber-900/70">No unverified self-registered vendors in ${esc(ca.city)}.</p>`;
+
+      document.getElementById("caVendorsVerifyList").innerHTML = cityVendors.filter(v => v.isPhysicallyVerified).map(v => `
         <div class="p-3 rounded-2xl border bg-slate-50 flex justify-between items-center text-xs">
           <div><strong>${esc(v.businessName)}</strong> (${esc(v.ownerName)}) • +91-${esc(v.phone)}</div>
-          <span class="font-bold px-2.5 py-1 rounded-full ${v.isPhysicallyVerified ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-            ${v.isPhysicallyVerified ? '✓ Verified Vendor' : 'Pending'}
+          <span class="font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
+            ✓ Verified Vendor
           </span>
         </div>
-      `).join("") || `<p class="text-xs text-slate-400">No verified vendors in this city.</p>`;
+      `).join("") || `<p class="text-xs text-slate-400">No verified vendors in this city yet.</p>`;
 
       const cityRequests = designRequests.filter(r => r.city.toLowerCase() === ca.city.toLowerCase() && r.advancePaid);
       document.getElementById("caEscrowApprovalsList").innerHTML = cityRequests.map(r => `
@@ -1373,6 +1419,14 @@
       `).join("") || `<p class="text-xs text-cyan-900/70">No advance payment approval requests in ${esc(ca.city)}.</p>`;
     }
 
+    function childAdminVerifySelfVendor(vendorId, caId) {
+      vendors = vendors.map(v => v.id === vendorId ? { ...v, isPhysicallyVerified: true, verifiedByCaId: caId } : v);
+      logAgreement("Child Admin Vendor Physical Verification", currentSession.ca.name, "Verified Vendor", vendorId, "Physically inspected and added to verified vendor list.");
+      saveData();
+      openChildAdminDash(currentSession.ca);
+      alert("✓ Vendor physically verified and added to your verified list!");
+    }
+
     function childAdminApproveAdvance(reqId, caId) {
       designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, caAdvanceApproved: true } : item);
       logAgreement("Child Admin E-Sign Agreement", `Child Admin (${caId})`, "Events360 Admin", reqId, "Approved advance release to vendor.");
@@ -1387,7 +1441,6 @@
       document.getElementById("avPhone").value = "";
       document.getElementById("avCity").value = currentSession ? currentSession.ca.city : "Rayachoti";
       document.getElementById("avState").value = "Andhra Pradesh";
-      document.getElementById("addVendorModal").classList.add("hidden"); // Wait, remove hidden
       document.getElementById("addVendorModal").classList.remove("hidden");
     }
 
@@ -1420,7 +1473,7 @@
       alert("✓ New vendor added and physically verified successfully!");
     }
 
-    initStatesAndCities();
+    syncPanIndiaStatesAndDistricts();
     restoreSession();
   </script>
 </body>
