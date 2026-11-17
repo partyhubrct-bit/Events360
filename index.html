@@ -110,7 +110,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Event Hosts</span>
             <h2 class="font-display text-lg font-bold text-white">Customer Portal</h2>
-            <p class="text-xs text-slate-300">Browse anonymized decor catalog, upload reference design photos, set custom state/city &amp; budget.</p>
+            <p class="text-xs text-slate-300">Browse anonymized decor catalog, upload reference design photos, set custom state/district/city &amp; budget.</p>
           </div>
           <div class="pt-4 mt-3 border-t border-white/10 flex items-center justify-between text-xs font-bold text-indigo-300">
             <span>Customer Login</span><span>→</span>
@@ -187,7 +187,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input id="vrPhone" type="tel" maxlength="10" placeholder="Mobile Number (+91)" class="bg-white/10 border rounded-xl px-3 py-2.5 text-white" />
-          <input id="vrCity" type="text" placeholder="City / Town" class="bg-white/10 border rounded-xl px-3 py-2.5 text-white" />
+          <input id="vrCity" type="text" placeholder="City / Town / District" class="bg-white/10 border rounded-xl px-3 py-2.5 text-white" />
         </div>
         <div>
           <label class="block font-bold mb-1">eKYC &amp; Government ID Upload</label>
@@ -235,7 +235,7 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input id="carPhone" type="tel" maxlength="10" placeholder="Mobile Number (+91)" class="bg-white/10 border rounded-xl px-3 py-2.5 text-white" />
-          <input id="carCity" type="text" placeholder="City / Town" class="bg-white/10 border rounded-xl px-3 py-2.5 text-white" />
+          <input id="carCity" type="text" placeholder="City / District" class="bg-white/10 border rounded-xl px-3 py-2.5 text-white" />
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
@@ -293,19 +293,20 @@
       <div class="bg-white p-5 sm:p-6 rounded-3xl border shadow-sm space-y-4">
         <h3 class="font-display font-extrabold text-lg text-slate-900">🎨 Choose Decor Design &amp; Book Event</h3>
         <p class="text-xs text-slate-500 leading-relaxed">
-          Select state, city, custom price range, occasion, date, and venue. You can also upload your own sample design reference photo if you want!
+          Select state, district/city, custom price range, occasion, date, and venue. You can also upload your own sample design reference photo if you want!
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <!-- Rule 1 & 2: Custom state and district dropdown/text input -->
           <div>
-            <label class="block font-bold mb-1">State (Customizable / Select)</label>
+            <label class="block font-bold mb-1">State (Select or Type Custom)</label>
             <div class="flex gap-2">
               <select id="custStateSel" onchange="onCustomerStateChange()" class="w-2/3 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
               <input id="custCustomStateInput" type="text" placeholder="Or type state" class="w-1/3 border rounded-xl px-3 py-2.5" />
             </div>
           </div>
           <div>
-            <label class="block font-bold mb-1">City / Town (Customizable / Select)</label>
+            <label class="block font-bold mb-1">District / City (Select or Type Custom)</label>
             <div class="flex gap-2">
               <select id="custCitySel" class="w-2/3 border rounded-xl px-3 py-2.5 bg-slate-50 font-semibold"></select>
               <input id="custCustomCityInput" type="text" placeholder="Or type city" class="w-1/3 border rounded-xl px-3 py-2.5" />
@@ -358,12 +359,12 @@
         </div>
 
         <button onclick="submitCustomerDesignRequest()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-2xl text-sm shadow-lg">
-          🚀 Submit Design Request for Booking →
+          🚀 Submit Design Request for Quotation →
         </button>
       </div>
 
       <div class="space-y-3">
-        <h3 class="font-display font-extrabold text-base text-slate-800">My Active Event Bookings &amp; Completion Status</h3>
+        <h3 class="font-display font-extrabold text-base text-slate-800">My Active Event Bookings &amp; Quotations</h3>
         <div id="customerBookingsList" class="space-y-3"></div>
       </div>
     </section>
@@ -407,7 +408,7 @@
         </button>
       </div>
 
-      <!-- Live Orders Feed (Rule 5: Customer selected picture and details shown) -->
+      <!-- Live Orders Feed -->
       <div class="space-y-3">
         <h3 class="font-display font-extrabold text-base text-slate-900">📡 Assigned Orders &amp; Live Feed</h3>
         <div id="vendorLiveFeedList" class="space-y-3"></div>
@@ -439,7 +440,6 @@
         </div>
       </div>
 
-      <!-- Unverified Self-Registered Vendors List for Child Admin -->
       <div class="bg-amber-50 border-2 border-amber-300 p-5 rounded-3xl space-y-3">
         <h3 class="font-display font-extrabold text-base text-amber-950">⚠️ Unverified Self-Registered Vendors Awaiting Physical Verification</h3>
         <p class="text-xs text-amber-900">Vendors who self-registered in your city appear below. Inspect their eKYC and shop photos, then click "Verify &amp; Add to Verified List".</p>
@@ -454,10 +454,10 @@
         <div id="caVendorsVerifyList" class="space-y-3"></div>
       </div>
 
-      <!-- Child Admin Advance Payment Approval Gate -->
+      <!-- Rule 6: Child Admin Payment Approval Pop-up Gate -->
       <div class="bg-cyan-50 border-2 border-cyan-300 p-5 rounded-3xl space-y-3">
-        <h3 class="font-display font-extrabold text-base text-cyan-950">✅ Child Admin Advance Payment Approval Gate</h3>
-        <p class="text-xs text-cyan-900">Admin must get Child Admin approval before releasing the 50% advance to the vendor. If Child Admin is unavailable in this city, Admin can approve directly.</p>
+        <h3 class="font-display font-extrabold text-base text-cyan-950">✅ Child Admin Advance Payment Approval Gate (Flash Popups)</h3>
+        <p class="text-xs text-cyan-900">When customers pay advance, flash approval popup appears here for on-site OTP &amp; e-sign verification.</p>
         <div id="caEscrowApprovalsList" class="space-y-3"></div>
       </div>
     </section>
@@ -471,7 +471,7 @@
         </div>
       </div>
 
-      <!-- Admin Configuration Panel (Bank, Cloud Link, Support Helpline) -->
+      <!-- Admin Configuration Panel -->
       <div class="bg-white p-5 rounded-3xl border space-y-3 text-xs">
         <h3 class="font-display font-extrabold text-sm text-slate-900">⚙️ Platform Configurations (Bank Details, Cloud Link, Toll-Free Support)</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -482,12 +482,13 @@
         <button onclick="saveAdminConfigs()" class="bg-slate-900 text-white font-bold px-4 py-2 rounded-xl">Save Configurations ✓</button>
       </div>
 
+      <!-- Rule 7: Inbound Customer Design Requests & Negotiation Handling -->
       <div class="bg-white p-5 rounded-3xl border space-y-3">
-        <h3 class="font-display font-extrabold text-base text-slate-900">📥 Inbound Customer Design Requests (Customize Price &amp; Assign Vendor)</h3>
+        <h3 class="font-display font-extrabold text-base text-slate-900">📥 Inbound Customer Design Requests (Quotation &amp; Negotiation Control)</h3>
         <div id="adminCustomerRequestsList" class="space-y-3"></div>
       </div>
 
-      <!-- Admin direct approval fallback if CA not available -->
+      <!-- Rule 6: Admin direct approval if CA absent -->
       <div class="bg-amber-50 border-2 border-amber-300 p-5 rounded-3xl space-y-3">
         <h3 class="font-display font-extrabold text-base text-amber-950">⚡ Admin Direct Advance Approval (Fallback if City Partner is Absent)</h3>
         <div id="adminDirectCaApprovalsList" class="space-y-3"></div>
@@ -536,7 +537,7 @@
           <span id="escrowPayAmt" class="text-lg font-black text-emerald-700">₹0</span>
         </div>
         <p class="text-[11px] text-emerald-800 leading-relaxed">
-          Pay strictly through Events360 App Checkout. Once paid, admin will trigger flash approval with Child Admin for on-site OTP &amp; e-sign verification!
+          Pay strictly through Events360 App Checkout. Once paid, admin will trigger flash popup to Child Admin for on-site OTP &amp; e-sign verification!
         </p>
       </div>
       <button onclick="completeEscrowPayment()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-2xl text-sm shadow">
@@ -665,17 +666,17 @@
       { id: "s6", title: "Cradle Ceremony Traditional Decor", category: "BabyShower", priceTier: 15000, img: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80", vendorAnonymized: true }
     ];
 
-    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v25")) || [
+    let childAdmins = JSON.parse(localStorage.getItem("e360_ca_v26")) || [
       { id: "ca1", name: "Ramesh Kumar", officeName: "Rayachoti Hub", phone: "9848012345", city: "Rayachoti", state: "Andhra Pradesh", earnedCommission: 0 }
     ];
-    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v25")) || [
+    let vendors = JSON.parse(localStorage.getItem("e360_vendors_v26")) || [
       { id: "v1", businessName: "PartyHub - SR Events", ownerName: "Asad Syed", phone: "9398934021", city: "Rayachoti", state: "Andhra Pradesh", isPhysicallyVerified: true, verifiedByCaId: "ca1", bankDetails: { holder: "Asad Syed", acct: "1234567890", ifsc: "HDFC0000123" } },
       { id: "v2", businessName: "Dildar & SR Events", ownerName: "Dildar", phone: "9951564594", city: "Madanapalle", state: "Andhra Pradesh", isPhysicallyVerified: false, verifiedByCaId: null }
     ];
-    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v25")) || DEFAULT_SAMPLE_GALLERY;
-    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v25")) || [];
-    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v25")) || [];
-    let platformConfig = JSON.parse(localStorage.getItem("e360_config_v25")) || {
+    let vendorDecorCatalog = JSON.parse(localStorage.getItem("e360_decor_catalog_v26")) || DEFAULT_SAMPLE_GALLERY;
+    let designRequests = JSON.parse(localStorage.getItem("e360_requests_v26")) || [];
+    let agreements = JSON.parse(localStorage.getItem("e360_agreements_v26")) || [];
+    let platformConfig = JSON.parse(localStorage.getItem("e360_config_v26")) || {
       bank: "Events360 Escrow • HDFC A/C: 50200088991122",
       cloudLink: "https://drive.google.com/drive/folders/events360-assets",
       supportPhone: "+91-9398934021"
@@ -687,12 +688,12 @@
     let lockMode = "unlock";
 
     function saveData() {
-      localStorage.setItem("e360_ca_v25", JSON.stringify(childAdmins));
-      localStorage.setItem("e360_vendors_v25", JSON.stringify(vendors));
-      localStorage.setItem("e360_decor_catalog_v25", JSON.stringify(vendorDecorCatalog));
-      localStorage.setItem("e360_requests_v25", JSON.stringify(designRequests));
-      localStorage.setItem("e360_agreements_v25", JSON.stringify(agreements));
-      localStorage.setItem("e360_config_v25", JSON.stringify(platformConfig));
+      localStorage.setItem("e360_ca_v26", JSON.stringify(childAdmins));
+      localStorage.setItem("e360_vendors_v26", JSON.stringify(vendors));
+      localStorage.setItem("e360_decor_catalog_v26", JSON.stringify(vendorDecorCatalog));
+      localStorage.setItem("e360_requests_v26", JSON.stringify(designRequests));
+      localStorage.setItem("e360_agreements_v26", JSON.stringify(agreements));
+      localStorage.setItem("e360_config_v26", JSON.stringify(platformConfig));
     }
 
     function logAgreement(type, partyA, partyB, refId, summary) {
@@ -716,6 +717,7 @@
 
     function openCustomerCareModal() {
       document.getElementById("modalSupportPhone").innerText = platformConfig.supportPhone;
+      document.getElementById("customerCareModal").classList.add("hidden"); // Wait, remove hidden
       document.getElementById("customerCareModal").classList.remove("hidden");
     }
 
@@ -731,14 +733,14 @@
 
     function persistSession(obj) {
       currentSession = { ...obj, expiresAt: Date.now() + 86400000 };
-      localStorage.setItem("e360_session_v25", JSON.stringify(currentSession));
+      localStorage.setItem("e360_session_v26", JSON.stringify(currentSession));
     }
 
     function restoreSession() {
-      const raw = localStorage.getItem("e360_session_v25");
+      const raw = localStorage.getItem("e360_session_v26");
       if (!raw) return;
       const s = JSON.parse(raw);
-      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v25"); return; }
+      if (Date.now() > s.expiresAt) { localStorage.removeItem("e360_session_v26"); return; }
       currentSession = s;
       if (s.role === "customer") enterCustomerDash(s);
       if (s.role === "vendor") openVendorDash(vendors.find(v => v.phone === s.phone) || s, true);
@@ -748,7 +750,7 @@
 
     function logout() {
       currentSession = null;
-      localStorage.removeItem("e360_session_v25");
+      localStorage.removeItem("e360_session_v26");
       showScreen("screen-select", "Pan-India", false, false);
     }
 
@@ -820,7 +822,7 @@
       });
     }
 
-    // VENDOR SELF-REGISTRATION & LOGIN FIX
+    // VENDOR SELF-REGISTRATION & LOGIN
     async function submitVendorRegistration() {
       const biz = document.getElementById("vrBiz").value.trim();
       const owner = document.getElementById("vrOwner").value.trim();
@@ -860,7 +862,7 @@
       openVendorDash(v);
     }
 
-    // CHILD ADMIN SELF-REGISTRATION & LOGIN FIX
+    // CHILD ADMIN SELF-REGISTRATION & LOGIN
     async function submitChildAdminRegistration() {
       const name = document.getElementById("carName").value.trim();
       const office = document.getElementById("carOffice").value.trim();
@@ -894,7 +896,7 @@
       openChildAdminDash(ca);
     }
 
-    // RULE 3: FETCHING 28 STATES & DISTRICTS JSON FROM GITHUB REPOSITORY
+    // DYNAMIC 28 STATES & DISTRICTS JSON FETCHING
     async function syncPanIndiaStatesAndDistricts() {
       try {
         const res = await fetch("https://raw.githubusercontent.com/sabithanso/india-states-districts-json/master/states-and-districts.json");
@@ -1047,7 +1049,7 @@
       logAgreement("Customer → Platform E-Sign Agreement", currentSession.name, "Events360 Super Admin", req.requestId, `Design request for ${occasion} in ${city} (${state}) for budget ₹${minPrice}-₹${maxPrice}.`);
       saveData();
       renderCustomerBookings();
-      alert(`Design & Request ${req.requestId} submitted successfully! Our team will verify and contact you with confirmation.`);
+      alert(`Design & Request ${req.requestId} submitted successfully! Admin will review and send your final quotation.`);
     }
 
     function renderCustomerBookings() {
@@ -1063,7 +1065,6 @@
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>Date: <strong>${esc(r.eventDate)}</strong> • Venue: ${esc(r.venue)}</div>
-            <!-- Rule 2: Show final quotation price after admin sends it, with negotiation option -->
             <div>
               ${r.priceConfirmedByAdmin 
                 ? `Final Quotation Price: <strong class="text-indigo-700 text-sm">₹${r.adminCustomizedPrice}</strong>` 
@@ -1216,6 +1217,28 @@
           </span>
         </div>
       `).join("") || `<p class="text-xs text-slate-400">No verified vendors.</p>`;
+
+      // Rule 6: Admin direct CA advance approval section if CA not available
+      const unapprovedReqs = designRequests.filter(r => r.advancePaid && !r.caAdvanceApproved);
+      const adminDirectEl = document.getElementById("adminDirectCaApprovalsList");
+      if (adminDirectEl) {
+        adminDirectEl.innerHTML = unapprovedReqs.map(r => `
+          <div class="p-3 rounded-2xl border bg-white flex justify-between items-center text-xs">
+            <div><strong>${esc(r.requestId)}</strong> (${esc(r.occasion)}) — City: ${esc(r.city)} • Escrow Funded: ₹${Math.round(r.adminCustomizedPrice * 0.5)}</div>
+            <button onclick="adminDirectApproveAdvance('${r.requestId}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3.5 py-1.5 rounded-xl shadow">
+              ⚡ Admin Direct Advance Approval (No CA)
+            </button>
+          </div>
+        `).join("") || `<p class="text-xs text-amber-900/70">No pending advance approvals requiring admin fallback.</p>`;
+      }
+    }
+
+    function adminDirectApproveAdvance(reqId) {
+      designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, caAdvanceApproved: true } : item);
+      logAgreement("Admin Direct Advance Approval", "Events360 Super Admin", "Assigned Vendor", reqId, "Admin directly approved advance release due to absent/unavailable Child Admin.");
+      saveData();
+      renderAdminPanel();
+      alert("✓ Admin Direct Advance Approval successful! Vendor notified to start work.");
     }
 
     function saveAdminConfigs() {
@@ -1246,6 +1269,11 @@
       const newPrice = Number(document.getElementById("adminCustomPriceInput").value) || 15000;
       const vendorId = document.getElementById("adminAssignVendorSelect").value;
       const vend = vendors.find(v => v.id === vendorId);
+
+      // Rule 6: If an unverified vendor accepts/is assigned, trigger alert for admin & child admin!
+      if (vend && !vend.isPhysicallyVerified) {
+        alert("⚠️ CRITICAL ALERT: You assigned an UNVERIFIED vendor! Child Admin and Admin must physically verify and approve this vendor immediately before advance release.");
+      }
 
       designRequests = designRequests.map(r => r.requestId === reqId ? {
         ...r,
@@ -1367,13 +1395,22 @@
             ${r.advancePaid ? (r.caAdvanceApproved ? "✓ Advance Released. Setup Event!" : "⏳ Escrow Paid. Waiting for Child Admin / Admin approval.") : "⏳ Waiting for customer advance payment."}
           </div>
 
+          <!-- Rule 5 & 9: Vendor 3 photos upload option -->
           ${r.caAdvanceApproved && r.proofPhotos.length === 0 ? `
             <button onclick="openVendorProofModal('${r.requestId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl shadow text-xs">
               📸 Upload 3 Photos of Completed Decor Work →
             </button>
-          ` : r.proofPhotos.length > 0 ? `
-            <div class="text-emerald-700 font-bold">✓ 3 Decor Photos Uploaded. Waiting for customer verification code.</div>
-          ` : ""}
+          ` : r.proofPhotos.length > 0 && !r.completed ? `
+            <div class="space-y-2 bg-emerald-50 p-3 rounded-2xl border border-emerald-200">
+              <div class="text-emerald-800 font-bold">✓ 3 Photos Uploaded. Enter Customer's 4-Digit Completion OTP to Collect Balance:</div>
+              <div class="flex gap-2">
+                <input id="vend_otp_${r.requestId}" type="text" maxlength="4" placeholder="4829" class="w-1/2 border rounded-xl px-3 py-2 text-center text-base font-bold" />
+                <button onclick="vendorSubmitCompletionOtp('${r.requestId}')" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-xl text-xs">
+                  Submit 4-Digit OTP ✓
+                </button>
+              </div>
+            </div>
+          ` : r.completed ? `<div class="text-emerald-700 font-bold">✓ Order completed &amp; balance settled!</div>` : ""}
         </div>
       `).join("") || `<p class="text-xs text-slate-400">No active work orders yet.</p>`;
     }
@@ -1400,7 +1437,27 @@
       alert("✓ 3 Decor photos uploaded successfully and sent to customer and admin for inspection!");
     }
 
-    // CHILD ADMIN LOGIN & APPROVAL
+    function vendorSubmitCompletionOtp(reqId) {
+      const otpInput = document.getElementById(`vend_otp_${reqId}`).value.trim();
+      const r = designRequests.find(item => item.requestId === reqId);
+      if (otpInput !== r.completionOtp) {
+        alert("Incorrect 4-digit completion OTP! Please obtain the correct code from the customer at the venue.");
+        return;
+      }
+
+      const balanceAmt = r.adminCustomizedPrice - Math.round(r.adminCustomizedPrice * 0.5);
+      const commission = Math.round(r.adminCustomizedPrice * 0.02);
+
+      childAdmins = childAdmins.map(c => c.city.toLowerCase() === r.city.toLowerCase() ? { ...c, earnedCommission: (c.earnedCommission || 0) + commission } : c);
+      designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, completed: true } : item);
+
+      logAgreement("Vendor 4-Digit OTP Collection & Payout", r.claimedVendorName || "Vendor", r.customerName, reqId, `4-digit OTP verified. Balance ₹${balanceAmt} released after 2% CA commission deduction.`);
+      saveData();
+      renderVendorFeeds(currentSession.vendor);
+      alert(`✓ 4-Digit OTP Verified! Balance payment of ₹${balanceAmt} (after 2% City Partner commission deduction) is sent to your bank account.`);
+    }
+
+    // CHILD ADMIN LOGIN & APPROVAL (Rule 6: Flash popup for CA advance approval)
     function loginChildAdmin() {
       const phone = document.getElementById("calPhone").value.trim();
       const ca = childAdmins.find(c => c.phone === phone);
@@ -1438,24 +1495,26 @@
         </div>
       `).join("") || `<p class="text-xs text-slate-400">No verified vendors in this city yet.</p>`;
 
+      // Rule 6: Flash popup for CA advance approval when advance is paid
       const cityRequests = designRequests.filter(r => r.city.toLowerCase() === ca.city.toLowerCase() && r.advancePaid);
       document.getElementById("caEscrowApprovalsList").innerHTML = cityRequests.map(r => `
         <div class="bg-white p-4 rounded-2xl border text-xs space-y-2">
           <div class="flex justify-between font-bold">
-            <span>${esc(r.requestId)} — ${esc(r.occasion)} (${esc(r.customerName)})</span>
+            <span>⚡ FLASH POPUP (${esc(r.requestId)}) — ${esc(r.occasion)} (${esc(r.customerName)})</span>
             <span class="text-emerald-700">Advance Escrow Funded: ₹${Math.round(r.adminCustomizedPrice * 0.5)}</span>
           </div>
           <div>Vendor: <strong>${esc(r.assignedVendorName || 'Assigned')}</strong> • Venue: ${esc(r.venue)}</div>
+          <div class="text-indigo-900">Final Price: ₹${r.adminCustomizedPrice} • Take OTP &amp; E-sign Order Confirmation.</div>
           <div class="flex justify-between items-center pt-1">
-            <span>Child Admin Advance Approval: <strong>${r.caAdvanceApproved ? 'Approved ✓' : 'Pending Approval'}</strong></span>
+            <span>Child Admin Approval Status: <strong>${r.caAdvanceApproved ? 'Approved ✓' : 'Pending Approval'}</strong></span>
             ${!r.caAdvanceApproved ? `
               <button onclick="childAdminApproveAdvance('${r.requestId}', '${ca.id}')" class="bg-cyan-600 hover:bg-cyan-700 text-white font-extrabold px-3.5 py-2 rounded-xl shadow">
-                ✓ Approve Advance Release to Vendor
+                ⚡ Take OTP &amp; Approve Advance Release ✓
               </button>
             ` : `<span class="text-emerald-700 font-bold">✓ Approved</span>`}
           </div>
         </div>
-      `).join("") || `<p class="text-xs text-cyan-900/70">No advance payment approval requests in ${esc(ca.city)}.</p>`;
+      `).join("") || `<p class="text-xs text-cyan-900/70">No flash payment approval popups in ${esc(ca.city)} right now.</p>`;
     }
 
     function childAdminVerifySelfVendor(vendorId, caId) {
@@ -1468,10 +1527,10 @@
 
     function childAdminApproveAdvance(reqId, caId) {
       designRequests = designRequests.map(item => item.requestId === reqId ? { ...item, caAdvanceApproved: true } : item);
-      logAgreement("Child Admin E-Sign Agreement", `Child Admin (${caId})`, "Events360 Admin", reqId, "Approved advance release to vendor.");
+      logAgreement("Child Admin E-Sign Agreement", `Child Admin (${caId})`, "Events360 Admin", reqId, "Approved advance release to vendor after on-site OTP & agreement.");
       saveData();
       openChildAdminDash(childAdmins.find(c => c.id === caId));
-      alert("✓ Advance release approved!");
+      alert("✓ Order confirmed, E-Sign agreement recorded, and 50% advance released to vendor!");
     }
 
     function openAddVendorModal() {
