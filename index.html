@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>PartyHub -SR Events | Mobile App</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,24 +23,24 @@
     }
     .brand-font { font-family: 'Cinzel', serif; }
     .glass-card {
-      background: rgba(255, 255, 255, 0.78);
+      background: rgba(255, 255, 255, 0.82);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1.5px solid rgba(255, 255, 255, 0.92);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
       box-shadow: 0 12px 32px rgba(2, 132, 199, 0.08);
     }
     .glass-blue {
-      background: linear-gradient(135deg, rgba(224, 242, 254, 0.85) 0%, rgba(255, 255, 255, 0.88) 100%);
+      background: linear-gradient(135deg, rgba(224, 242, 254, 0.88) 0%, rgba(255, 255, 255, 0.90) 100%);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1.5px solid rgba(186, 230, 253, 0.9);
+      border: 1.5px solid rgba(186, 230, 253, 0.95);
       box-shadow: 0 10px 28px rgba(14, 165, 233, 0.10);
     }
     .glass-header {
-      background: rgba(255, 255, 255, 0.86);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1.5px solid rgba(186, 230, 253, 0.8);
+      border-bottom: 1.5px solid rgba(186, 230, 253, 0.85);
     }
     .btn-sky {
       background: linear-gradient(135deg, #0284C7 0%, #0EA5E9 100%);
@@ -49,7 +50,7 @@
     }
     .btn-sky:active { transform: scale(0.98); }
     .input-glass {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.94);
       border: 1.5px solid #BAE6FD;
       color: #0F172A;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -105,17 +106,20 @@
         </button>
 
         <!-- Admin Button: Automatically hidden when Customer is logged in -->
-        <button id="topAdminBtn" onclick="openAdminModal()" class="px-2.5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95">
+        <button id="topAdminBtn" onclick="openAdminView()" class="px-2.5 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold flex items-center gap-1 shadow-sm active:scale-95">
           <svg class="w-3.5 h-3.5 text-sky-300" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
           </svg>
-          <span>Admin</span>
+          <span id="topAdminBtnLabel">Admin</span>
         </button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-lg mx-auto px-3.5 pt-3.5 space-y-4">
+  <!-- ========================================================= -->
+  <!-- VIEW A: MAIN CUSTOMER & HOME PORTAL                       -->
+  <!-- ========================================================= -->
+  <main id="customerMainView" class="max-w-lg mx-auto px-3.5 pt-3.5 space-y-4">
 
     <!-- SECURITY CAUTION MESSAGE -->
     <div class="rounded-2xl bg-amber-50/95 border border-amber-300 px-3.5 py-2.5 shadow-sm flex items-start gap-2.5">
@@ -179,7 +183,7 @@
       </div>
     </section>
 
-    <!-- LOGGED-IN CUSTOMER PROFILE BAR (Replaces Login Card after OTP) -->
+    <!-- LOGGED-IN CUSTOMER PROFILE BAR (Persists Until Explicit Logout) -->
     <section id="customerProfileCard" class="hidden glass-blue rounded-3xl p-4">
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-3 min-w-0">
@@ -189,7 +193,7 @@
           <div class="min-w-0">
             <div class="flex items-center gap-1.5">
               <h2 id="profileName" class="text-sm font-extrabold text-slate-900 truncate">Customer</h2>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">OTP Verified</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">Session Active</span>
             </div>
             <p id="profilePhone" class="text-xs font-semibold text-sky-800">+91 0000000000</p>
           </div>
@@ -361,8 +365,293 @@
         <div id="catalogGrid" class="grid grid-cols-1 gap-3"></div>
       </section>
 
+      <!-- 4. CUSTOMER'S SENT PAYMENTS HISTORY -->
+      <section class="glass-card rounded-3xl p-4 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <h3 class="text-sm font-extrabold text-slate-900">My Sent Payments & Bookings</h3>
+          <span id="custTxCount" class="text-[11px] font-bold text-sky-700">0 Records</span>
+        </div>
+        <div id="customerPaymentsList" class="space-y-2 text-xs"></div>
+      </section>
+
     </div>
   </main>
+
+  <!-- ========================================================= -->
+  <!-- VIEW B: DEDICATED ADMIN PORTAL (Persists Until Logout)    -->
+  <!-- ========================================================= -->
+  <section id="adminFullView" class="hidden max-w-lg mx-auto px-3.5 pt-3.5 space-y-4">
+
+    <!-- Admin Login Screen (Shown only if Admin is NOT logged in) -->
+    <div id="adminLoginCard" class="glass-card rounded-3xl p-5 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="inline-block px-2.5 py-0.5 rounded-full bg-slate-900 text-sky-300 text-[10px] font-extrabold uppercase tracking-wider mb-1">
+            Restricted Access
+          </span>
+          <h2 class="text-lg font-extrabold text-slate-900">Admin Portal Login</h2>
+          <p class="text-xs text-slate-600">Sign in to manage services, prices, photos, cloud storage, help desk, payment settings & analytics.</p>
+        </div>
+        <button onclick="backToCustomerHome()" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold">
+          ← Home
+        </button>
+      </div>
+
+      <div class="space-y-3 pt-1">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Admin Username</label>
+          <input id="adminUserInput" type="text" placeholder="admin" class="input-glass w-full rounded-xl px-3.5 py-2.5 text-xs font-bold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Admin Password</label>
+          <input id="adminPassInput" type="password" placeholder="••••••••" class="input-glass w-full rounded-xl px-3.5 py-2.5 text-xs font-bold" />
+        </div>
+        <button onclick="loginAdmin()" class="btn-sky w-full py-3 rounded-xl font-extrabold text-sm">
+          Sign In to Admin Dashboard
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Authenticated Workspace (Stays active across reloads until Logout) -->
+    <div id="adminWorkspace" class="hidden space-y-4">
+
+      <!-- Sticky Admin Session Banner -->
+      <div class="glass-blue rounded-3xl p-4 flex items-center justify-between gap-2">
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <h2 class="text-sm font-extrabold text-slate-900">Admin Control Center</h2>
+          </div>
+          <p class="text-[11px] font-semibold text-sky-800">Session locked active until you click Logout</p>
+        </div>
+        <button onclick="logoutAdmin()" class="px-3.5 py-2 rounded-xl bg-rose-600 text-white text-xs font-extrabold shadow-sm active:scale-95">
+          Logout Admin
+        </button>
+      </div>
+
+      <!-- Admin Navigation Tabs -->
+      <div class="glass-card rounded-2xl p-1.5 grid grid-cols-4 gap-1 text-center">
+        <button onclick="switchAdminTab('analytics')" id="tabBtnAnalytics" class="py-2 px-1 rounded-xl bg-sky-600 text-white text-[11px] font-extrabold shadow-sm">
+          Payments & Graphs
+        </button>
+        <button onclick="switchAdminTab('services')" id="tabBtnServices" class="py-2 px-1 rounded-xl text-slate-700 text-[11px] font-bold">
+          Services & Photos
+        </button>
+        <button onclick="switchAdminTab('payment')" id="tabBtnPayment" class="py-2 px-1 rounded-xl text-slate-700 text-[11px] font-bold">
+          Pay & Help Desk
+        </button>
+        <button onclick="switchAdminTab('cloud')" id="tabBtnCloud" class="py-2 px-1 rounded-xl text-slate-700 text-[11px] font-bold">
+          Cloud & Logo
+        </button>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- ADMIN TAB 1: CUSTOMER PAYMENTS + DAILY & MONTHLY GRAPHS -->
+      <!-- ======================================================= -->
+      <div id="adminTabAnalytics" class="space-y-4">
+
+        <!-- KPI Summary Cards -->
+        <div class="grid grid-cols-3 gap-2">
+          <div class="glass-card rounded-2xl p-3 text-center">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Today's Pay</div>
+            <div id="kpiTodayAmt" class="text-sm font-extrabold text-sky-700 mt-0.5">₹0</div>
+          </div>
+          <div class="glass-card rounded-2xl p-3 text-center">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">This Month</div>
+            <div id="kpiMonthAmt" class="text-sm font-extrabold text-emerald-700 mt-0.5">₹0</div>
+          </div>
+          <div class="glass-card rounded-2xl p-3 text-center">
+            <div class="text-[10px] font-bold text-slate-500 uppercase">Total Received</div>
+            <div id="kpiTotalAmt" class="text-sm font-extrabold text-slate-900 mt-0.5">₹0</div>
+          </div>
+        </div>
+
+        <!-- Daily Payment Graph -->
+        <div class="glass-card rounded-3xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wide">Daily Payment Collection Graph (Last 7 Days)</h3>
+            <span class="px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-bold">Daily ₹</span>
+          </div>
+          <div class="h-44 w-full">
+            <canvas id="dailyPaymentChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Monthly Payment Graph -->
+        <div class="glass-card rounded-3xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-extrabold text-slate-900 uppercase tracking-wide">Monthly Payment Revenue Graph (2026)</h3>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Monthly ₹</span>
+          </div>
+          <div class="h-44 w-full">
+            <canvas id="monthlyPaymentChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Customer Sent Payments Live Feed -->
+        <div class="glass-card rounded-3xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-extrabold text-slate-900">Customer Sent Payments Ledger</h3>
+            <span id="adminTxCountBadge" class="text-[11px] font-extrabold text-sky-700">0 Payments</span>
+          </div>
+          <div id="adminPaymentsLedger" class="space-y-2 max-h-72 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- ADMIN TAB 2: SERVICES, PRICE & PHOTOS ADD / UPDATE      -->
+      <!-- ======================================================= -->
+      <div id="adminTabServices" class="hidden space-y-4">
+        <div class="glass-card rounded-3xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h3 id="serviceFormTitle" class="text-sm font-extrabold text-slate-900">Add New Service & Photo</h3>
+            <button id="cancelEditServiceBtn" onclick="resetServiceForm()" class="hidden text-[11px] font-bold text-rose-600 underline">Cancel Edit</button>
+          </div>
+          <input type="hidden" id="editServiceId" value="" />
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Service Category</label>
+            <select id="admCatSelect" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold"></select>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Service / Decoration Name</label>
+            <input id="admItemName" type="text" placeholder="e.g., 3D Royal Ring Stage Setup" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Package Price (₹)</label>
+            <input id="admItemPrice" type="number" placeholder="e.g., 14500" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Photo URL (Instagram / Facebook / Google / Cloud)</label>
+            <input id="admItemImgUrl" type="url" placeholder="Paste image URL" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Or Upload Photo From Device Gallery</label>
+            <input id="admItemImgFile" type="file" accept="image/*" class="w-full text-xs text-slate-600" />
+          </div>
+          <button onclick="adminSaveService()" id="saveServiceBtn" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
+            Publish Service & Photo
+          </button>
+        </div>
+
+        <div class="glass-card rounded-3xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-extrabold text-slate-900">Update Existing Services, Prices & Photos</h4>
+            <span class="text-[10px] font-bold text-sky-700">Tap Edit to modify</span>
+          </div>
+          <div id="adminServicesList" class="space-y-2 max-h-80 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- ADMIN TAB 3: PAYMENT DETAILS & HELP DESK SETTINGS       -->
+      <!-- ======================================================= -->
+      <div id="adminTabPayment" class="hidden space-y-4">
+        <div class="glass-card rounded-3xl p-4 space-y-2.5">
+          <h3 class="text-sm font-extrabold text-slate-900">Official Payment Details (Shown at Checkout)</h3>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Official UPI ID (GPay / PhonePe / Paytm)</label>
+            <input id="admUpiInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Account Holder / Business Name</label>
+            <input id="admAccHolderInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Bank Name, Account Number & IFSC Code</label>
+            <input id="admBankInput" type="text" placeholder="e.g., SBI • A/C: 1234567890 • IFSC: SBIN0001234" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Payment QR Image URL (Optional)</label>
+            <input id="admQrUrlInput" type="url" placeholder="https://..." class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <button onclick="savePaymentHelpSettings()" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
+            Save Payment Details
+          </button>
+        </div>
+
+        <div class="glass-card rounded-3xl p-4 space-y-2.5">
+          <h3 class="text-sm font-extrabold text-slate-900">Help Desk Contact Details</h3>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Help Desk Mobile Number</label>
+            <input id="admPhoneInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">WhatsApp Support Number</label>
+            <input id="admWhatsappInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Official Help Desk Email ID</label>
+            <input id="admEmailInput" type="email" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <button onclick="savePaymentHelpSettings()" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
+            Save Help Desk Details
+          </button>
+        </div>
+      </div>
+
+      <!-- ======================================================= -->
+      <!-- ADMIN TAB 4: CLOUD STORAGE LINK & BRAND LOGO SETTINGS   -->
+      <!-- ======================================================= -->
+      <div id="adminTabCloud" class="hidden space-y-4">
+        <div class="glass-card rounded-3xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-extrabold text-slate-900">Cloud Storage Backup & Media Drive</h3>
+            <span class="px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 text-[10px] font-extrabold">Cloud Sync</span>
+          </div>
+          <p class="text-[11px] text-slate-600">
+            Save your Google Drive, Cloudinary, Firebase, or AWS S3 folder link for high-resolution decoration albums, customer E-Sign contracts, and payment receipts.
+          </p>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Cloud Storage Provider / Label</label>
+            <input id="admCloudLabelInput" type="text" placeholder="e.g., Google Drive - PartyHub Media & Backup" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Cloud Storage Link (URL)</label>
+            <input id="admCloudUrlInput" type="url" placeholder="https://drive.google.com/..." class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div class="flex gap-2">
+            <button onclick="saveCloudSettings()" class="btn-sky w-2/3 py-2.5 rounded-xl font-extrabold text-xs">
+              Save Cloud Link
+            </button>
+            <a id="openCloudLinkBtn" href="#" target="_blank" class="w-1/3 py-2.5 rounded-xl bg-slate-900 text-white text-center font-extrabold text-xs flex items-center justify-center">
+              Open Cloud ↗
+            </a>
+          </div>
+          <div class="pt-1 border-t border-sky-100 flex items-center justify-between">
+            <span class="text-[11px] font-semibold text-slate-600">Export JSON Backup to Upload to Cloud:</span>
+            <button onclick="exportJsonBackup()" class="px-3 py-1.5 rounded-lg bg-sky-100 text-sky-800 text-[11px] font-extrabold">
+              Download Backup
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-3xl p-4 space-y-2.5">
+          <h3 class="text-sm font-extrabold text-slate-900">Mobile Application Name & Logo</h3>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">App & Brand Name</label>
+            <input id="admBrandNameInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Subtitle Tagline</label>
+            <input id="admBrandSubInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Logo Image URL</label>
+            <input id="admLogoUrlInput" type="url" placeholder="https://..." class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">Or Upload Logo File</label>
+            <input id="admLogoFileInput" type="file" accept="image/*" class="w-full text-xs text-slate-600" />
+          </div>
+          <button onclick="saveBrandSettings()" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
+            Update App Name & Logo
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- FLOATING CART BAR (Visible Only When Customer Logged In & Cart Has Items) -->
   <div id="floatingCartBar" class="hidden fixed bottom-3 left-0 right-0 z-40 px-3.5">
@@ -491,11 +780,17 @@
           <div><strong>Official UPI ID:</strong> <span id="checkoutUpiId" class="font-mono text-sky-800 font-bold">9398934021@ybl</span></div>
           <div><strong>Account Name:</strong> <span id="checkoutAccName">PartyHub -SR Events</span></div>
           <div id="checkoutBankExtra" class="hidden text-[11px] text-slate-600"></div>
+          <img id="checkoutQrImg" src="" alt="Payment QR" class="hidden w-28 h-28 object-contain rounded-lg border border-sky-200 bg-white p-1 mt-1" />
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1">Transaction / UTR Reference Number (Optional)</label>
+          <input id="custUtrInput" type="text" placeholder="Enter 12-digit UPI UTR / Ref ID" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
         </div>
       </div>
 
       <button onclick="confirmBookingOrder()" class="btn-sky w-full py-3 rounded-xl font-extrabold text-sm">
-        Confirm E-Signed Booking & Pay ₹<span id="confirmPayBtnAmt">0</span>
+        Send Payment & Confirm Booking (₹<span id="confirmPayBtnAmt">0</span>)
       </button>
     </div>
   </div>
@@ -507,130 +802,11 @@
     <div class="bg-white w-full max-w-md rounded-3xl p-5 space-y-3 shadow-2xl border border-emerald-200">
       <div class="text-center space-y-1">
         <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center text-xl font-extrabold">✓</div>
-        <h3 class="text-base font-extrabold text-slate-900">Booking & E-Sign Confirmed!</h3>
+        <h3 class="text-base font-extrabold text-slate-900">Payment Sent & E-Sign Confirmed!</h3>
         <p class="text-xs text-slate-500">Order ID: <strong id="receiptOrderId" class="text-slate-800"></strong></p>
       </div>
       <div id="receiptBody" class="rounded-2xl bg-slate-50 border border-slate-200 p-3 text-xs space-y-1.5 text-slate-700"></div>
       <button onclick="closeModal('receiptModal')" class="btn-sky w-full py-2.5 rounded-xl font-bold text-xs">Done</button>
-    </div>
-  </div>
-
-  <!-- ========================================================= -->
-  <!-- MODAL 4: ADMIN LOGIN & CONTROL PANEL                      -->
-  <!-- ========================================================= -->
-  <div id="adminModal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-2.5">
-    <div class="bg-white w-full max-w-md rounded-3xl p-4 max-h-[92vh] overflow-y-auto space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
-        <h3 class="text-base font-extrabold text-slate-900">Admin Control Panel</h3>
-        <button onclick="closeModal('adminModal')" class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 font-bold">✕</button>
-      </div>
-
-      <!-- Admin Login Form -->
-      <div id="adminLoginForm" class="space-y-3">
-        <p class="text-xs text-slate-600">Sign in to upload decoration photos (Instagram/Facebook/Google/Gallery), manage prices, branding & payment details.</p>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Admin Username</label>
-          <input id="adminUserInput" type="text" placeholder="admin" class="input-glass w-full rounded-xl px-3 py-2.5 text-xs font-bold" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Admin Password</label>
-          <input id="adminPassInput" type="password" placeholder="••••••••" class="input-glass w-full rounded-xl px-3 py-2.5 text-xs font-bold" />
-        </div>
-        <button onclick="loginAdmin()" class="btn-sky w-full py-2.5 rounded-xl font-bold text-xs">Login to Admin Dashboard</button>
-      </div>
-
-      <!-- Admin Dashboard Content -->
-      <div id="adminDashboard" class="hidden space-y-4">
-        <div class="flex items-center justify-between bg-sky-50 px-3 py-2 rounded-xl">
-          <span class="text-xs font-extrabold text-sky-900">Admin Authenticated</span>
-          <button onclick="logoutAdmin()" class="text-xs font-bold text-rose-600">Logout Admin</button>
-        </div>
-
-        <!-- Tabs -->
-        <div class="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-xl">
-          <button onclick="switchAdminTab('services')" id="tabBtnServices" class="py-1.5 rounded-lg bg-white text-slate-900 text-xs font-extrabold shadow-sm">+ Add Service</button>
-          <button onclick="switchAdminTab('brand')" id="tabBtnBrand" class="py-1.5 rounded-lg text-slate-600 text-xs font-bold">App & Logo</button>
-          <button onclick="switchAdminTab('payment')" id="tabBtnPayment" class="py-1.5 rounded-lg text-slate-600 text-xs font-bold">Pay & Help</button>
-        </div>
-
-        <!-- TAB 1: UPLOAD SERVICE & IMAGE -->
-        <div id="adminTabServices" class="space-y-2.5">
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Service Category</label>
-            <select id="admCatSelect" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold"></select>
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Service / Decoration Name</label>
-            <input id="admItemName" type="text" placeholder="e.g., 3D Royal Ring Stage Setup" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Package Price (₹)</label>
-            <input id="admItemPrice" type="number" placeholder="e.g., 14500" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Photo URL (Instagram / Facebook / Google)</label>
-            <input id="admItemImgUrl" type="url" placeholder="Paste image link from Instagram, FB or Google" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Or Upload Photo From Device Gallery</label>
-            <input id="admItemImgFile" type="file" accept="image/*" class="w-full text-xs text-slate-600" />
-          </div>
-          <button onclick="adminAddService()" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
-            Publish Service to Customer App
-          </button>
-
-          <div class="pt-2 border-t border-slate-100">
-            <div class="text-xs font-extrabold text-slate-800 mb-1.5">Manage Existing Services</div>
-            <div id="adminServicesList" class="space-y-1.5 max-h-40 overflow-y-auto"></div>
-          </div>
-        </div>
-
-        <!-- TAB 2: CHANGE APP NAME & LOGO -->
-        <div id="adminTabBrand" class="hidden space-y-2.5">
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Mobile Application & Brand Name</label>
-            <input id="admBrandNameInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Subtitle / Branches Tagline</label>
-            <input id="admBrandSubInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Brand Logo URL (Google / Instagram / Direct Image)</label>
-            <input id="admLogoUrlInput" type="url" placeholder="https://..." class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Or Upload Custom Logo Image</label>
-            <input id="admLogoFileInput" type="file" accept="image/*" class="w-full text-xs text-slate-600" />
-          </div>
-          <button onclick="saveBrandSettings()" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
-            Update App Name & Logo
-          </button>
-        </div>
-
-        <!-- TAB 3: PAYMENT & HELP DESK SETTINGS -->
-        <div id="adminTabPayment" class="hidden space-y-2.5">
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Official Help Desk Mobile / WhatsApp</label>
-            <input id="admPhoneInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Official Email ID</label>
-            <input id="admEmailInput" type="email" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Official UPI ID</label>
-            <input id="admUpiInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-bold" />
-          </div>
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">Bank Account Details (A/C No & IFSC)</label>
-            <input id="admBankInput" type="text" class="input-glass w-full rounded-xl px-3 py-2 text-xs font-semibold" />
-          </div>
-          <button onclick="savePaymentHelpSettings()" class="btn-sky w-full py-2.5 rounded-xl font-extrabold text-xs">
-            Save Payment & Help Desk Details
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -696,7 +872,7 @@
     ];
 
     // =========================================================
-    // 3. DEFAULT SERVICES & STATE MANAGEMENT (LOCALSTORAGE SYNC)
+    // 3. DEFAULT DATA & PERSISTENT STORAGE (LOCALSTORAGE)
     // =========================================================
     const DEFAULT_SERVICES = [
       {
@@ -770,22 +946,90 @@
       brandSub: "Rayachoti • Madanapalle • Annamayya & Kadapa",
       logoUrl: "",
       phone: "9398934021",
+      whatsapp: "9398934021",
       email: "partyhubsrevents@gmail.com",
       upi: "9398934021@ybl",
-      bank: "PartyHub -SR Events • Rayachoti Branch"
+      accHolder: "PartyHub -SR Events",
+      bank: "PartyHub -SR Events • Rayachoti Branch",
+      qrUrl: "",
+      cloudLabel: "Google Drive - PartyHub Media & Receipts",
+      cloudUrl: "https://drive.google.com"
     };
 
-    let services = JSON.parse(localStorage.getItem("ph_services_v1")) || DEFAULT_SERVICES;
-    let appConfig = JSON.parse(localStorage.getItem("ph_config_v1")) || DEFAULT_CONFIG;
-    let currentCustomer = JSON.parse(sessionStorage.getItem("ph_customer_v1")) || null;
-    let isAdminLoggedIn = false;
+    function getSeedPayments() {
+      const today = new Date();
+      const fmt = (daysAgo) => {
+        const d = new Date(today);
+        d.setDate(d.getDate() - daysAgo);
+        return d.toISOString().split("T")[0];
+      };
+      return [
+        {
+          id: "PHSR-841209",
+          customerName: "Karthik Reddy",
+          customerPhone: "9849123456",
+          city: "Rayachoti",
+          district: "Annamayya",
+          occasion: "Birthday Party",
+          totalValue: 19000,
+          milestonePct: 20,
+          amountPaid: 3800,
+          method: "UPI",
+          utr: "UTR629104827112",
+          date: fmt(0),
+          status: "Received"
+        },
+        {
+          id: "PHSR-739102",
+          customerName: "Sneha Latha",
+          customerPhone: "9177654321",
+          city: "Madanapalle",
+          district: "Annamayya",
+          occasion: "Half Saree / Dhoti Ceremony",
+          totalValue: 38000,
+          milestonePct: 70,
+          amountPaid: 26600,
+          method: "BANK",
+          utr: "NEFT9018273645",
+          date: fmt(2),
+          status: "Received"
+        },
+        {
+          id: "PHSR-612048",
+          customerName: "Ramesh Naidu",
+          customerPhone: "9440112233",
+          city: "Kadapa City",
+          district: "Kadapa",
+          occasion: "Wedding / Reception",
+          totalValue: 54000,
+          milestonePct: 20,
+          amountPaid: 10800,
+          method: "UPI",
+          utr: "UTR554433221199",
+          date: fmt(4),
+          status: "Received"
+        }
+      ];
+    }
+
+    let services = JSON.parse(localStorage.getItem("ph_services_v2")) || DEFAULT_SERVICES;
+    let appConfig = Object.assign({}, DEFAULT_CONFIG, JSON.parse(localStorage.getItem("ph_config_v2")) || {});
+    let payments = JSON.parse(localStorage.getItem("ph_payments_v2")) || getSeedPayments();
+
+    // Persistent login sessions (stays logged in until Logout is explicitly clicked)
+    let currentCustomer = JSON.parse(localStorage.getItem("ph_customer_session_v2")) || null;
+    let isAdminLoggedIn = localStorage.getItem("ph_admin_session_v2") === "true";
+    let activeScreen = localStorage.getItem("ph_active_screen_v2") || (isAdminLoggedIn ? "ADMIN" : "CUSTOMER");
+
     let selectedCategory = "ALL";
     let cart = [];
     let selectedPayMethod = "UPI";
     let generatedOtp = "4829";
+    let dailyChartInstance = null;
+    let monthlyChartInstance = null;
 
     // =========================================================
-    // 4. INITIALIZATION & BRAND SYNC
+    // 4. INITIALIZATION & SESSION ROUTING
     // =========================================================
     function initApp() {
       applyBrandConfig();
@@ -793,11 +1037,21 @@
       renderCategories();
       populateServiceDropdown();
       renderCatalog();
-      syncCustomerAuthUI();
       initSignaturePad();
 
       const today = new Date().toISOString().split("T")[0];
       document.getElementById("eventDateInput").value = today;
+
+      // Enforce persistent state on reload or revisit
+      if (isAdminLoggedIn) {
+        activeScreen = "ADMIN";
+        showAdminWorkspace();
+      } else if (activeScreen === "ADMIN") {
+        openAdminView();
+      } else {
+        showCustomerView();
+      }
+      syncCustomerAuthUI();
     }
 
     function applyBrandConfig() {
@@ -808,16 +1062,29 @@
       document.getElementById("helpBrandLabel").textContent = appConfig.brandName + " Official Desk";
       document.getElementById("cardPhoneDisplay").textContent = appConfig.phone;
 
-      document.getElementById("helpWhatsappText").textContent = "+91 " + appConfig.phone + " →";
-      document.getElementById("helpWhatsappLink").href = "https://wa.me/91" + appConfig.phone.replace(/\D/g, "");
-      document.getElementById("helpPhoneText").textContent = "+91 " + appConfig.phone + " →";
-      document.getElementById("helpCallLink").href = "tel:+91" + appConfig.phone.replace(/\D/g, "");
+      const waNum = (appConfig.whatsapp || appConfig.phone).replace(/\D/g, "");
+      const phNum = appConfig.phone.replace(/\D/g, "");
+      document.getElementById("helpWhatsappText").textContent = "+91 " + waNum + " →";
+      document.getElementById("helpWhatsappLink").href = "https://wa.me/91" + waNum;
+      document.getElementById("helpPhoneText").textContent = "+91 " + phNum + " →";
+      document.getElementById("helpCallLink").href = "tel:+91" + phNum;
       document.getElementById("helpEmailText").textContent = appConfig.email;
       document.getElementById("helpEmailLink").href = "mailto:" + appConfig.email;
 
       document.getElementById("checkoutUpiId").textContent = appConfig.upi;
-      document.getElementById("checkoutAccName").textContent = appConfig.brandName;
+      document.getElementById("checkoutAccName").textContent = appConfig.accHolder || appConfig.brandName;
       document.getElementById("checkoutBankExtra").textContent = appConfig.bank;
+
+      const qrImg = document.getElementById("checkoutQrImg");
+      if (appConfig.qrUrl && appConfig.qrUrl.trim() !== "") {
+        qrImg.src = appConfig.qrUrl;
+        qrImg.classList.remove("hidden");
+      } else {
+        qrImg.classList.add("hidden");
+      }
+
+      const cloudBtn = document.getElementById("openCloudLinkBtn");
+      cloudBtn.href = appConfig.cloudUrl || "https://drive.google.com";
 
       const logoImg = document.getElementById("headerLogoImg");
       const logoSvg = document.getElementById("headerLogoSvg");
@@ -832,8 +1099,100 @@
     }
 
     // =========================================================
-    // 5. CUSTOMER OTP LOGIN & CONDITIONAL UI GATING
+    // 5. PERSISTENT CUSTOMER & ADMIN SESSION CONTROLLERS
     // =========================================================
+    function showCustomerView() {
+      if (isAdminLoggedIn) return; // Prevent leaving Admin without Admin Logout
+      activeScreen = "CUSTOMER";
+      localStorage.setItem("ph_active_screen_v2", "CUSTOMER");
+      document.getElementById("adminFullView").classList.add("hidden");
+      document.getElementById("customerMainView").classList.remove("hidden");
+    }
+
+    function backToCustomerHome() {
+      if (isAdminLoggedIn) {
+        alert("Please click 'Logout Admin' to exit the Admin dashboard.");
+        return;
+      }
+      showCustomerView();
+    }
+
+    function openAdminView() {
+      if (currentCustomer) {
+        alert("Please logout from the Customer account first before accessing Admin.");
+        return;
+      }
+      activeScreen = "ADMIN";
+      localStorage.setItem("ph_active_screen_v2", "ADMIN");
+      document.getElementById("customerMainView").classList.add("hidden");
+      document.getElementById("floatingCartBar").classList.add("hidden");
+      document.getElementById("adminFullView").classList.remove("hidden");
+
+      if (isAdminLoggedIn) {
+        showAdminWorkspace();
+      } else {
+        document.getElementById("adminLoginCard").classList.remove("hidden");
+        document.getElementById("adminWorkspace").classList.add("hidden");
+      }
+    }
+
+    function loginAdmin() {
+      const u = document.getElementById("adminUserInput").value.trim();
+      const p = document.getElementById("adminPassInput").value.trim();
+      if (u === "admin" && p === "admin123") {
+        isAdminLoggedIn = true;
+        localStorage.setItem("ph_admin_session_v2", "true");
+        localStorage.setItem("ph_active_screen_v2", "ADMIN");
+        showAdminWorkspace();
+      } else {
+        alert("Invalid Admin credentials. Use admin / admin123");
+      }
+    }
+
+    function logoutAdmin() {
+      isAdminLoggedIn = false;
+      localStorage.removeItem("ph_admin_session_v2");
+      localStorage.setItem("ph_active_screen_v2", "CUSTOMER");
+      document.getElementById("adminUserInput").value = "";
+      document.getElementById("adminPassInput").value = "";
+      document.getElementById("topAdminBtnLabel").textContent = "Admin";
+      showCustomerView();
+      syncCustomerAuthUI();
+    }
+
+    function showAdminWorkspace() {
+      document.getElementById("customerMainView").classList.add("hidden");
+      document.getElementById("floatingCartBar").classList.add("hidden");
+      document.getElementById("adminFullView").classList.remove("hidden");
+      document.getElementById("adminLoginCard").classList.add("hidden");
+      document.getElementById("adminWorkspace").classList.remove("hidden");
+      document.getElementById("topAdminBtnLabel").textContent = "Admin Active";
+
+      // Populate Admin Forms
+      const catSel = document.getElementById("admCatSelect");
+      catSel.innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
+
+      document.getElementById("admUpiInput").value = appConfig.upi;
+      document.getElementById("admAccHolderInput").value = appConfig.accHolder || appConfig.brandName;
+      document.getElementById("admBankInput").value = appConfig.bank;
+      document.getElementById("admQrUrlInput").value = appConfig.qrUrl || "";
+
+      document.getElementById("admPhoneInput").value = appConfig.phone;
+      document.getElementById("admWhatsappInput").value = appConfig.whatsapp || appConfig.phone;
+      document.getElementById("admEmailInput").value = appConfig.email;
+
+      document.getElementById("admCloudLabelInput").value = appConfig.cloudLabel || "";
+      document.getElementById("admCloudUrlInput").value = appConfig.cloudUrl || "";
+
+      document.getElementById("admBrandNameInput").value = appConfig.brandName;
+      document.getElementById("admBrandSubInput").value = appConfig.brandSub;
+      document.getElementById("admLogoUrlInput").value = appConfig.logoUrl || "";
+
+      renderAdminServicesList();
+      renderAdminPaymentsAndCharts();
+    }
+
+    // Customer OTP Login & Logout
     function sendCustomerOtp() {
       const name = document.getElementById("custNameInput").value.trim();
       const phone = document.getElementById("custPhoneInput").value.trim();
@@ -867,14 +1226,14 @@
       const name = document.getElementById("custNameInput").value.trim();
       const phone = document.getElementById("custPhoneInput").value.trim();
       currentCustomer = { name, phone };
-      sessionStorage.setItem("ph_customer_v1", JSON.stringify(currentCustomer));
+      localStorage.setItem("ph_customer_session_v2", JSON.stringify(currentCustomer));
       syncCustomerAuthUI();
     }
 
     function logoutCustomer() {
       currentCustomer = null;
       cart = [];
-      sessionStorage.removeItem("ph_customer_v1");
+      localStorage.removeItem("ph_customer_session_v2");
       resetOtpStep();
       syncCustomerAuthUI();
       updateCartUI();
@@ -895,12 +1254,13 @@
         lockedNotice.classList.add("hidden");
         unlockedPortal.classList.remove("hidden");
 
-        // Hide Admin button when customer is logged in
+        // Hide Admin button while customer is logged in
         topAdminBtn.classList.add("hidden");
 
         document.getElementById("profileName").textContent = currentCustomer.name;
         document.getElementById("profilePhone").textContent = "+91 " + currentCustomer.phone;
         document.getElementById("profileInitial").textContent = currentCustomer.name.charAt(0).toUpperCase();
+        renderCustomerPaymentsList();
       } else {
         loginCard.classList.remove("hidden");
         profileCard.classList.add("hidden");
@@ -908,7 +1268,6 @@
         lockedNotice.classList.remove("hidden");
         unlockedPortal.classList.add("hidden");
 
-        // Restore Admin button when customer is logged out
         topAdminBtn.classList.remove("hidden");
       }
     }
@@ -1047,7 +1406,7 @@
 
     function updateCartUI() {
       const bar = document.getElementById("floatingCartBar");
-      if (!currentCustomer || cart.length === 0) {
+      if (!currentCustomer || cart.length === 0 || isAdminLoggedIn) {
         bar.classList.add("hidden");
         return;
       }
@@ -1102,6 +1461,7 @@
 
       document.getElementById("payableNowText").textContent = amt.toLocaleString("en-IN");
       document.getElementById("confirmPayBtnAmt").textContent = amt.toLocaleString("en-IN");
+      return amt;
     }
 
     function selectPayMethod(method) {
@@ -1177,85 +1537,103 @@
       }
 
       const total = cart.reduce((sum, item) => sum + Number(item.price), 0);
-      const pct = document.getElementById("milestoneStageSelect").value;
-      const paidNow = document.getElementById("confirmPayBtnAmt").textContent;
+      const pct = Number(document.getElementById("milestoneStageSelect").value);
+      const paidNowNum = updatePayableNow();
+      const utrVal = document.getElementById("custUtrInput").value.trim() || ("UTR" + Math.floor(100000000000 + Math.random() * 900000000000));
       const orderId = "PHSR-" + Math.floor(100000 + Math.random() * 900000);
+      const todayStr = new Date().toISOString().split("T")[0];
+
+      // Save payment transaction so it displays live inside Admin Ledger & Charts
+      const newPayment = {
+        id: orderId,
+        customerName: currentCustomer.name,
+        customerPhone: currentCustomer.phone,
+        city: document.getElementById("citySelect").value,
+        district: document.getElementById("districtSelect").value,
+        occasion: document.getElementById("occasionSelect").value,
+        eventDate: document.getElementById("eventDateInput").value,
+        servicesList: cart.map(c => c.name).join(", "),
+        totalValue: total,
+        milestonePct: pct,
+        amountPaid: paidNowNum,
+        method: selectedPayMethod,
+        utr: utrVal,
+        date: todayStr,
+        status: "Received"
+      };
+
+      payments.unshift(newPayment);
+      localStorage.setItem("ph_payments_v2", JSON.stringify(payments));
 
       document.getElementById("receiptOrderId").textContent = orderId;
       document.getElementById("receiptBody").innerHTML = `
         <div><strong>Customer:</strong> ${currentCustomer.name} (+91 ${currentCustomer.phone})</div>
-        <div><strong>Location:</strong> ${document.getElementById("citySelect").value}, ${document.getElementById("districtSelect").value}</div>
-        <div><strong>Event Date:</strong> ${document.getElementById("eventDateInput").value} (${document.getElementById("occasionSelect").value})</div>
+        <div><strong>Location:</strong> ${newPayment.city}, ${newPayment.district}</div>
+        <div><strong>Event Date:</strong> ${newPayment.eventDate} (${newPayment.occasion})</div>
         <div><strong>Total Package Value:</strong> ₹${total.toLocaleString("en-IN")}</div>
-        <div><strong>Milestone Paid (${pct}%):</strong> <span class="text-emerald-700 font-extrabold">₹${paidNow} via ${selectedPayMethod}</span></div>
-        <div><strong>E-Signature Status:</strong> Verified & Timestamped</div>
+        <div><strong>Milestone Sent (${pct}%):</strong> <span class="text-emerald-700 font-extrabold">₹${paidNowNum.toLocaleString("en-IN")} via ${selectedPayMethod}</span></div>
+        <div><strong>UTR / Ref No:</strong> <span class="font-mono">${utrVal}</span></div>
+        <div><strong>Admin Sync:</strong> Displayed in Admin Payment Ledger</div>
       `;
 
       closeModal("checkoutModal");
       document.getElementById("receiptModal").classList.remove("hidden");
       cart = [];
       clearSignature();
+      document.getElementById("custUtrInput").value = "";
       document.getElementById("agreeCheckbox").checked = false;
       renderCatalog();
       updateCartUI();
+      renderCustomerPaymentsList();
+    }
+
+    function renderCustomerPaymentsList() {
+      if (!currentCustomer) return;
+      const box = document.getElementById("customerPaymentsList");
+      const myTx = payments.filter(p => p.customerPhone === currentCustomer.phone);
+      document.getElementById("custTxCount").textContent = `${myTx.length} Records`;
+
+      if (myTx.length === 0) {
+        box.innerHTML = `<div class="p-3 rounded-xl bg-sky-50/70 text-slate-500 text-center">No payments sent yet. Select services above to book.</div>`;
+        return;
+      }
+
+      box.innerHTML = myTx.map(tx => `
+        <div class="p-3 rounded-2xl bg-white border border-sky-100 space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-slate-900">${tx.id} • ${tx.occasion}</span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold">₹${Number(tx.amountPaid).toLocaleString("en-IN")} (${tx.milestonePct}%)</span>
+          </div>
+          <div class="text-[11px] text-slate-600">${tx.city}, ${tx.district} • Date: ${tx.date} • Via ${tx.method}</div>
+          <div class="text-[10px] font-mono text-slate-500">Ref: ${tx.utr}</div>
+        </div>
+      `).join("");
     }
 
     // =========================================================
-    // 8. ADMIN PANEL LOGIC
+    // 8. ADMIN TABS, SERVICES UPDATE, CLOUD & ANALYTICS CHARTS
     // =========================================================
-    function openAdminModal() {
-      document.getElementById("adminModal").classList.remove("hidden");
-      if (isAdminLoggedIn) {
-        showAdminDashboard();
-      }
-    }
-
-    function loginAdmin() {
-      const u = document.getElementById("adminUserInput").value.trim();
-      const p = document.getElementById("adminPassInput").value.trim();
-      if (u === "admin" && p === "admin123") {
-        isAdminLoggedIn = true;
-        showAdminDashboard();
-      } else {
-        alert("Invalid Admin credentials. Default: admin / admin123");
-      }
-    }
-
-    function logoutAdmin() {
-      isAdminLoggedIn = false;
-      document.getElementById("adminDashboard").classList.add("hidden");
-      document.getElementById("adminLoginForm").classList.remove("hidden");
-    }
-
-    function showAdminDashboard() {
-      document.getElementById("adminLoginForm").classList.add("hidden");
-      document.getElementById("adminDashboard").classList.remove("hidden");
-
-      const catSel = document.getElementById("admCatSelect");
-      catSel.innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
-
-      document.getElementById("admBrandNameInput").value = appConfig.brandName;
-      document.getElementById("admBrandSubInput").value = appConfig.brandSub;
-      document.getElementById("admLogoUrlInput").value = appConfig.logoUrl;
-      document.getElementById("admPhoneInput").value = appConfig.phone;
-      document.getElementById("admEmailInput").value = appConfig.email;
-      document.getElementById("admUpiInput").value = appConfig.upi;
-      document.getElementById("admBankInput").value = appConfig.bank;
-
-      renderAdminServicesList();
-    }
-
     function switchAdminTab(tab) {
-      ["Services", "Brand", "Payment"].forEach(t => {
-        const lower = t.toLowerCase();
-        document.getElementById("adminTab" + t).classList.toggle("hidden", lower !== tab);
-        document.getElementById("tabBtn" + t).className = lower === tab
-          ? "py-1.5 rounded-lg bg-white text-slate-900 text-xs font-extrabold shadow-sm"
-          : "py-1.5 rounded-lg text-slate-600 text-xs font-bold";
+      const map = {
+        analytics: "Analytics",
+        services: "Services",
+        payment: "Payment",
+        cloud: "Cloud"
+      };
+      Object.keys(map).forEach(key => {
+        const suffix = map[key];
+        document.getElementById("adminTab" + suffix).classList.toggle("hidden", key !== tab);
+        document.getElementById("tabBtn" + suffix).className = key === tab
+          ? "py-2 px-1 rounded-xl bg-sky-600 text-white text-[11px] font-extrabold shadow-sm"
+          : "py-2 px-1 rounded-xl text-slate-700 text-[11px] font-bold";
       });
+      if (tab === "analytics") {
+        renderAdminPaymentsAndCharts();
+      }
     }
 
-    function adminAddService() {
+    function adminSaveService() {
+      const editId = document.getElementById("editServiceId").value;
       const category = document.getElementById("admCatSelect").value;
       const name = document.getElementById("admItemName").value.trim();
       const price = Number(document.getElementById("admItemPrice").value);
@@ -1267,55 +1645,139 @@
         return;
       }
 
-      const saveItem = (imgSrc, sourceLabel) => {
-        services.unshift({
-          id: "srv-" + Date.now(),
-          category,
-          name,
-          price,
-          source: sourceLabel,
-          image: imgSrc || "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80"
-        });
-        localStorage.setItem("ph_services_v1", JSON.stringify(services));
-        document.getElementById("admItemName").value = "";
-        document.getElementById("admItemPrice").value = "";
-        document.getElementById("admItemImgUrl").value = "";
-        fileInput.value = "";
+      const commitSave = (finalImage, sourceLabel) => {
+        if (editId) {
+          const idx = services.findIndex(s => s.id === editId);
+          if (idx > -1) {
+            services[idx] = {
+              ...services[idx],
+              category,
+              name,
+              price,
+              image: finalImage || services[idx].image,
+              source: sourceLabel || services[idx].source
+            };
+          }
+          alert("Service, price & photo updated successfully!");
+        } else {
+          services.unshift({
+            id: "srv-" + Date.now(),
+            category,
+            name,
+            price,
+            source: sourceLabel || "Admin Upload",
+            image: finalImage || "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80"
+          });
+          alert("New service & photo published live!");
+        }
+
+        localStorage.setItem("ph_services_v2", JSON.stringify(services));
+        resetServiceForm();
         populateServiceDropdown();
         renderCatalog();
         renderAdminServicesList();
-        alert("New service & photo published live!");
       };
 
       if (fileInput.files && fileInput.files[0]) {
         const reader = new FileReader();
-        reader.onload = (e) => saveItem(e.target.result, "Admin Gallery Upload");
+        reader.onload = (e) => commitSave(e.target.result, "Admin Gallery Upload");
         reader.readAsDataURL(fileInput.files[0]);
       } else {
-        const srcTag = urlInput.includes("instagram") ? "Instagram Sync" : (urlInput.includes("fb") || urlInput.includes("facebook") ? "Facebook Sync" : "Admin Upload");
-        saveItem(urlInput, srcTag);
+        const srcTag = urlInput.includes("instagram") ? "Instagram Sync" : (urlInput.includes("fb") || urlInput.includes("facebook") ? "Facebook Sync" : (urlInput ? "Cloud / Web URL" : ""));
+        commitSave(urlInput, srcTag);
       }
+    }
+
+    function editServiceItem(id) {
+      const srv = services.find(s => s.id === id);
+      if (!srv) return;
+      document.getElementById("editServiceId").value = srv.id;
+      document.getElementById("admCatSelect").value = srv.category;
+      document.getElementById("admItemName").value = srv.name;
+      document.getElementById("admItemPrice").value = srv.price;
+      document.getElementById("admItemImgUrl").value = srv.image.startsWith("data:") ? "" : srv.image;
+
+      document.getElementById("serviceFormTitle").textContent = "Edit Service, Price & Photo";
+      document.getElementById("saveServiceBtn").textContent = "Update Service & Photo";
+      document.getElementById("cancelEditServiceBtn").classList.remove("hidden");
+      document.getElementById("adminTabServices").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetServiceForm() {
+      document.getElementById("editServiceId").value = "";
+      document.getElementById("admItemName").value = "";
+      document.getElementById("admItemPrice").value = "";
+      document.getElementById("admItemImgUrl").value = "";
+      document.getElementById("admItemImgFile").value = "";
+      document.getElementById("serviceFormTitle").textContent = "Add New Service & Photo";
+      document.getElementById("saveServiceBtn").textContent = "Publish Service & Photo";
+      document.getElementById("cancelEditServiceBtn").classList.add("hidden");
     }
 
     function renderAdminServicesList() {
       const list = document.getElementById("adminServicesList");
       list.innerHTML = services.map(s => `
-        <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200 text-xs">
-          <div class="truncate pr-2">
-            <div class="font-bold text-slate-900 truncate">${s.name}</div>
-            <div class="text-[10px] text-sky-700 font-bold">₹${s.price.toLocaleString("en-IN")}</div>
+        <div class="flex items-center justify-between gap-2 p-2.5 rounded-2xl bg-white border border-sky-100 text-xs">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <img src="${s.image}" alt="" class="w-11 h-11 rounded-xl object-cover flex-shrink-0 bg-sky-50" />
+            <div class="min-w-0">
+              <div class="font-bold text-slate-900 truncate">${s.name}</div>
+              <div class="text-[11px] text-sky-700 font-extrabold">₹${Number(s.price).toLocaleString("en-IN")}</div>
+            </div>
           </div>
-          <button onclick="deleteService('${s.id}')" class="px-2 py-1 rounded-lg bg-rose-100 text-rose-700 font-bold text-[10px]">Delete</button>
+          <div class="flex items-center gap-1 flex-shrink-0">
+            <button onclick="editServiceItem('${s.id}')" class="px-2.5 py-1.5 rounded-lg bg-sky-100 text-sky-800 font-extrabold text-[10px]">Edit</button>
+            <button onclick="deleteService('${s.id}')" class="px-2 py-1.5 rounded-lg bg-rose-100 text-rose-700 font-bold text-[10px]">Del</button>
+          </div>
         </div>
       `).join("");
     }
 
     function deleteService(id) {
       services = services.filter(s => s.id !== id);
-      localStorage.setItem("ph_services_v1", JSON.stringify(services));
+      localStorage.setItem("ph_services_v2", JSON.stringify(services));
       populateServiceDropdown();
       renderCatalog();
       renderAdminServicesList();
+    }
+
+    function savePaymentHelpSettings() {
+      appConfig.upi = document.getElementById("admUpiInput").value.trim() || appConfig.upi;
+      appConfig.accHolder = document.getElementById("admAccHolderInput").value.trim() || appConfig.accHolder;
+      appConfig.bank = document.getElementById("admBankInput").value.trim() || appConfig.bank;
+      appConfig.qrUrl = document.getElementById("admQrUrlInput").value.trim();
+
+      appConfig.phone = document.getElementById("admPhoneInput").value.trim() || appConfig.phone;
+      appConfig.whatsapp = document.getElementById("admWhatsappInput").value.trim() || appConfig.whatsapp;
+      appConfig.email = document.getElementById("admEmailInput").value.trim() || appConfig.email;
+
+      localStorage.setItem("ph_config_v2", JSON.stringify(appConfig));
+      applyBrandConfig();
+      alert("Official Payment & Help Desk details updated!");
+    }
+
+    function saveCloudSettings() {
+      appConfig.cloudLabel = document.getElementById("admCloudLabelInput").value.trim() || "Cloud Storage";
+      appConfig.cloudUrl = document.getElementById("admCloudUrlInput").value.trim() || "https://drive.google.com";
+      localStorage.setItem("ph_config_v2", JSON.stringify(appConfig));
+      applyBrandConfig();
+      alert("Cloud Storage link saved!");
+    }
+
+    function exportJsonBackup() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        config: appConfig,
+        services,
+        payments
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "PartyHub_SR_Events_Backup.json";
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
     function saveBrandSettings() {
@@ -1329,9 +1791,9 @@
 
       const finish = (finalLogo) => {
         appConfig.logoUrl = finalLogo;
-        localStorage.setItem("ph_config_v1", JSON.stringify(appConfig));
+        localStorage.setItem("ph_config_v2", JSON.stringify(appConfig));
         applyBrandConfig();
-        alert("App Name & Brand Logo updated across all screens!");
+        alert("App Name & Logo updated!");
       };
 
       if (logoFile.files && logoFile.files[0]) {
@@ -1343,18 +1805,135 @@
       }
     }
 
-    function savePaymentHelpSettings() {
-      appConfig.phone = document.getElementById("admPhoneInput").value.trim() || appConfig.phone;
-      appConfig.email = document.getElementById("admEmailInput").value.trim() || appConfig.email;
-      appConfig.upi = document.getElementById("admUpiInput").value.trim() || appConfig.upi;
-      appConfig.bank = document.getElementById("admBankInput").value.trim() || appConfig.bank;
-      localStorage.setItem("ph_config_v1", JSON.stringify(appConfig));
-      applyBrandConfig();
-      alert("Payment & Help Desk details updated!");
+    // =========================================================
+    // 9. ADMIN PAYMENTS LEDGER + DAILY & MONTHLY CHARTS
+    // =========================================================
+    function renderAdminPaymentsAndCharts() {
+      const todayStr = new Date().toISOString().split("T")[0];
+      const currentMonthPrefix = todayStr.slice(0, 7); // YYYY-MM
+
+      let todayTotal = 0;
+      let monthTotal = 0;
+      let grandTotal = 0;
+
+      payments.forEach(p => {
+        const amt = Number(p.amountPaid) || 0;
+        grandTotal += amt;
+        if (p.date === todayStr) todayTotal += amt;
+        if ((p.date || "").startsWith(currentMonthPrefix)) monthTotal += amt;
+      });
+
+      document.getElementById("kpiTodayAmt").textContent = "₹" + todayTotal.toLocaleString("en-IN");
+      document.getElementById("kpiMonthAmt").textContent = "₹" + monthTotal.toLocaleString("en-IN");
+      document.getElementById("kpiTotalAmt").textContent = "₹" + grandTotal.toLocaleString("en-IN");
+      document.getElementById("adminTxCountBadge").textContent = `${payments.length} Payments`;
+
+      // Render Ledger Cards
+      const ledger = document.getElementById("adminPaymentsLedger");
+      if (payments.length === 0) {
+        ledger.innerHTML = `<div class="text-xs text-slate-500 text-center py-4">No customer payments received yet.</div>`;
+      } else {
+        ledger.innerHTML = payments.map(p => `
+          <div class="p-3 rounded-2xl bg-white border border-sky-100 text-xs space-y-1 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="font-extrabold text-slate-900">${p.customerName} (+91 ${p.customerPhone})</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[11px]">
+                +₹${Number(p.amountPaid).toLocaleString("en-IN")} (${p.milestonePct}%)
+              </span>
+            </div>
+            <div class="text-[11px] text-slate-600">
+              <strong>${p.occasion}</strong> • ${p.city}, ${p.district} • Date: ${p.date}
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+              <span>Order: <strong>${p.id}</strong> • Via <strong>${p.method}</strong></span>
+              <span class="font-mono">UTR: ${p.utr || "N/A"}</span>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Build Last 7 Days Daily Series
+      const dailyLabels = [];
+      const dailyData = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const iso = d.toISOString().split("T")[0];
+        const shortLabel = d.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+        dailyLabels.push(shortLabel);
+        const daySum = payments
+          .filter(p => p.date === iso)
+          .reduce((s, p) => s + Number(p.amountPaid || 0), 0);
+        dailyData.push(daySum);
+      }
+
+      // Build Monthly Series (Jan - Dec of current year)
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const yearStr = new Date().getFullYear().toString();
+      const monthlyData = monthNames.map((_, mIdx) => {
+        const mm = String(mIdx + 1).padStart(2, "0");
+        const prefix = `${yearStr}-${mm}`;
+        return payments
+          .filter(p => (p.date || "").startsWith(prefix))
+          .reduce((s, p) => s + Number(p.amountPaid || 0), 0);
+      });
+
+      if (typeof Chart !== "undefined") {
+        const dailyCtx = document.getElementById("dailyPaymentChart").getContext("2d");
+        if (dailyChartInstance) dailyChartInstance.destroy();
+        dailyChartInstance = new Chart(dailyCtx, {
+          type: "bar",
+          data: {
+            labels: dailyLabels,
+            datasets: [{
+              label: "Daily Collection (₹)",
+              data: dailyData,
+              backgroundColor: "rgba(2, 132, 199, 0.85)",
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, ticks: { font: { size: 10 } } },
+              x: { ticks: { font: { size: 10 } } }
+            }
+          }
+        });
+
+        const monthlyCtx = document.getElementById("monthlyPaymentChart").getContext("2d");
+        if (monthlyChartInstance) monthlyChartInstance.destroy();
+        monthlyChartInstance = new Chart(monthlyCtx, {
+          type: "line",
+          data: {
+            labels: monthNames,
+            datasets: [{
+              label: "Monthly Revenue (₹)",
+              data: monthlyData,
+              borderColor: "#059669",
+              backgroundColor: "rgba(16, 185, 129, 0.16)",
+              fill: true,
+              tension: 0.35,
+              pointRadius: 3.5
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { beginAtZero: true, ticks: { font: { size: 10 } } },
+              x: { ticks: { font: { size: 9 } } }
+            }
+          }
+        });
+      }
     }
 
     // =========================================================
-    // 9. MODAL HELPERS
+    // 10. MODAL HELPERS
     // =========================================================
     function openHelpDesk() {
       document.getElementById("helpDeskModal").classList.remove("hidden");
